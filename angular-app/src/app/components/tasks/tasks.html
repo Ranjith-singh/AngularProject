@@ -1,0 +1,10 @@
+<app-add-item>
+    
+</app-add-item>
+<app-task-item
+    *ngFor="let task of tasks"
+    [task]="task"
+    (onDeleteTask)="removeTaskFromList(task)"
+    (onToggleRemainder)="toggleTaskRemainder(task)"
+>
+</app-task-item>
