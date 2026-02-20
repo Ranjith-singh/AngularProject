@@ -1,0 +1,43 @@
+<h2>{{title}}</h2>
+<table class="table">
+    <tr>
+        <th>index</th>
+        <th>odd/even</th>
+        <th>id</th>
+        <th>type</th>
+        <th>addOn's</th>
+        <th>Food Menu</th>
+        <th>Price</th>
+        <th>CheckIn</th>
+        <th>Rating</th>
+    </tr>
+    <!-- <tr *ngFor="let room of rooms">
+            <td>{{room.id}}</td>
+            <td>{{room.type}}</td>
+            <td>{{room.addOn}}</td>
+            <td>{{room.foodMenu}}</td>
+            <td>{{room.price}}</td>
+            <td>{{room.checkIn}}</td>
+        </tr> -->
+    @for(room of rooms; track room.id; let e=$even; let o=$odd, let i=$index ){
+    <tr [ngClass]="e?'even':'odd'">
+        <td>{{$index | percent}}</td>
+        <td>{{e?"Even":"odd"}}</td>
+        <td>{{room.id}}</td>
+        <td>{{room.type}}</td>
+        <td>{{room.addOn}}</td>
+        <td>{{room.foodMenu | uppercase}}</td>
+        <td>{{room.price | currency: 'INR'}}</td>
+        <td>{{room.checkIn | date}}</td>
+        <td>{{room.rating | number: '1.0-0'}}</td>
+        <td>
+            <button
+                class="btn btn-primary"
+                (click)="selectRoom(room)"
+            >
+                Select
+            </button>
+        </td>
+    </tr>
+    }
+</table>

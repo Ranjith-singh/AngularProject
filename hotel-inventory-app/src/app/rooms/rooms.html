@@ -1,0 +1,40 @@
+<!-- <div *ngIf="showRooms">
+    <table>
+        <tr>
+            <th>id</th>
+            <th>type</th>
+            <th>addOn's</th>
+            <th>Food Menu</th>
+            <th>Price</th>
+            <th>CheckIn</th>
+        </tr>
+        <tr>
+    
+        </tr>
+    </table>
+</div> -->
+<!-- {{rooms | json}} -->
+<app-header></app-header>
+@if(showRooms){
+    <div>
+    <app-rooms-list
+        [rooms]="rooms"
+        [title]="title"
+        (selectedRoom)="displaySelectedRoom($event)"
+    >
+    </app-rooms-list>
+    <button
+        (click)="addRoom()"
+    >
+        Add Room
+    </button>
+    </div>
+}
+@if(selectedRoom){
+    <div>
+        {{selectedRoom| json}}
+    </div>
+}
+<button (click)="toggle()" [ngStyle]="{'color': showRooms? 'steelblue': 'tomato'}">
+    {{!showRooms?'Show Rooms': 'Nakko'}}
+</button>
