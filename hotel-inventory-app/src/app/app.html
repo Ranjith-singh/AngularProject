@@ -15,6 +15,8 @@
 <div>
   {{order?'order kare': 'naako'}}
 </div>
+<div #div></div>
+<div #div></div>
 <button (click)="toggle()">
   Click
 </button>
@@ -26,7 +28,14 @@
 </p>
 }
 @case ('admin') {
-<app-rooms></app-rooms>
+<!-- <app-rooms></app-rooms> -->
+<app-container>
+  <app-employee></app-employee>
+  <app-rooms></app-rooms>
+  <h3>hello</h3>
+  <!-- <h2>hell</h2> -->
+</app-container>
+<!-- <ng-template #user></ng-template> -->
 }
 @default {
 <p>Unauthorized user!!!</p>

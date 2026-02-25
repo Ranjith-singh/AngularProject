@@ -3,6 +3,7 @@ import { Room } from './Room';
 import { CommonModule } from '@angular/common';
 import { RoomsList } from "./rooms-list/rooms-list";
 import { Header } from '../header/header';
+import { RoomService } from './service/room-service';
 
 @Component({
   selector: 'app-rooms',
@@ -19,37 +20,10 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
 
   @ViewChild(Header, {static: true}) headerComponent!: Header
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private roomService: RoomService) {}
+
   ngOnInit(): void {
-    this.rooms = [
-      {
-        id: 1,
-        type: "AC",
-        addOn: "Catering",
-        foodMenu: "Dosa and Biryani",
-        price: 2000,
-        checkIn: new Date("2025-12-22"),
-        rating: 4.2
-      },
-      {
-        id: 2,
-        type: "Without AC",
-        addOn: "None",
-        foodMenu: "Dosa and idli",
-        price: 700,
-        checkIn: new Date("2025-12-22"),
-        rating: 3.2
-      },
-      {
-        id: 3,
-        type: "Suite",
-        addOn: "Catering and Samphane",
-        foodMenu: "Aleo oleo, Saman with parmachan cheese",
-        price: 5000,
-        checkIn: new Date("2025-12-22"),
-        rating: 2.6
-      },
-    ]
+    this.rooms = this.roomService.getRooms()
   }
   ngDoCheck(): void {
       console.log("Changes from Do Check")
