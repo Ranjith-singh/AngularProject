@@ -15,10 +15,12 @@
 </div> -->
 <!-- {{rooms | json}} -->
 <app-header></app-header>
-@if(showRooms){
+<h3>{{downloadedBytes}} Bytes Loaded</h3>
+<h3>{{getError$ | async}}</h3>
+@if(showRooms && (rooms$ | async); as rooms){
     <div>
     <app-rooms-list
-        [rooms]="rooms"
+        [rooms]="rooms$ | async"
         [title]="title"
         (selectedRoom)="displaySelectedRoom($event)"
     >
@@ -27,6 +29,16 @@
         (click)="addRoom()"
     >
         Add Room
+    </button>
+    <button
+        (click)="updateRoom()"
+    >
+        Update Room
+    </button>
+    <button
+        (click)="deleteRoom()"
+    >
+        Delete Room
     </button>
     </div>
 }

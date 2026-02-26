@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomsList implements OnChanges, OnDestroy {
-  @Input() rooms: Room[] = []
+  @Input() rooms: Room[] | null= []
   @Input() title: string = 'Room List'
 
   @Output() selectedRoom = new EventEmitter<Room>()

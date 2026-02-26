@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Self } from '@angular/core';
 import { RoomService } from '../rooms/service/room-service';
 
 @Component({
@@ -6,7 +6,7 @@ import { RoomService } from '../rooms/service/room-service';
   imports: [],
   templateUrl: './employee.html',
   styleUrl: './employee.scss',
-  providers: [RoomService]
+  // providers: [RoomService]
 })
 export class Employee {
   constructor(private roomService: RoomService){

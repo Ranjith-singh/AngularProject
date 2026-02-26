@@ -3,12 +3,21 @@ import { RouterOutlet } from '@angular/router';
 import { Rooms } from "./rooms/rooms";
 import { Container } from "./container/container";
 import { Employee } from "./employee/employee";
+import { APP_CONFIG, APP_CONFIG_SERVICE } from './appConfig/appconfig.service';
+import { RoomService } from './rooms/service/room-service';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Rooms, Container, Employee],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+  providers: [
+    {
+    provide: APP_CONFIG_SERVICE,
+    useValue: APP_CONFIG
+    },
+    RoomService
+  ]
 })
 export class App implements AfterViewInit{
   protected readonly title = signal('Hotel Inventory');

@@ -65,7 +65,8 @@
               "buildTarget": "TodoList:build:production"
             },
             "development": {
-              "buildTarget": "TodoList:build:development"
+              "buildTarget": "TodoList:build:development",
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"

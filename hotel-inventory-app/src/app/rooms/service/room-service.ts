@@ -1,45 +1,91 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, ChangeDetectorRef } from '@angular/core';
 import { Room } from '../Room';
+import { APP_CONFIG_SERVICE } from '../../appConfig/appconfig.service';
+import { AppConfig } from '../../appConfig/appconfig';
+import { LocalStorageToken } from '../../LocalStorage';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { catchError, Observable, of, shareReplay, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoomService {
+  error$= new Subject<string>()
 
-  constructor(){
+  constructor(
+  @Inject(APP_CONFIG_SERVICE) private config: AppConfig,
+  @Inject(LocalStorageToken) private localStorage: Storage,
+  private http: HttpClient,){
+    // console.log(environment.apiEndpoint);
+    console.log(config.apiEndpoint);
     console.log("Room Service Initialized");
+    
+    this.localStorage.setItem("name", "hitesh Choudary");
+    this.getRooms$= this.http.get<Room[]>('/api/room').pipe(
+      shareReplay(1),
+      catchError((err)=>{
+        this.error$.next(err.message)
+        return of([]);
+      })
+    );
   }
-  rooms: Room[] = [
-      {
-        id: 1,
-        type: "AC",
-        addOn: "Catering",
-        foodMenu: "Dosa and Biryani",
-        price: 2000,
-        checkIn: new Date("2025-12-22"),
-        rating: 4.2
-      },
-      {
-        id: 2,
-        type: "Without AC",
-        addOn: "None",
-        foodMenu: "Dosa and idli",
-        price: 700,
-        checkIn: new Date("2025-12-22"),
-        rating: 3.2
-      },
-      {
-        id: 3,
-        type: "Suite",
-        addOn: "Catering and Samphane",
-        foodMenu: "Aleo oleo, Saman with parmachan cheese",
-        price: 5000,
-        checkIn: new Date("2025-12-22"),
-        rating: 2.6
-      },
-    ]
 
-    getRooms(): Room[]{
-      return this.rooms
-    }
+  // rooms: Room[] = [
+  //   {
+  //     id: 1,
+  //     type: "AC",
+  //     addOn: "Catering",
+  //     foodMenu: "Dosa and Biryani",
+  //     price: 2000,
+  //     checkIn: new Date("2025-12-22"),
+  //     rating: 4.2
+  //   },
+  //   {
+  //     id: 2,
+  //     type: "Without AC",
+  //     addOn: "None",
+  //     foodMenu: "Dosa and idli",
+  //     price: 700,
+  //     checkIn: new Date("2025-12-22"),
+  //     rating: 3.2
+  //   },
+  //   {
+  //     id: 3,
+  //     type: "Suite",
+  //     addOn: "Catering and Samphane",
+  //     foodMenu: "Aleo oleo, Saman with parmachan cheese",
+  //     price: 5000,
+  //     checkIn: new Date("2025-12-22"),
+  //     rating: 2.6
+  //   },
+  // ]
+  getRooms$!: Observable<Room[]>;
+  rooms: Room[]= []
+
+  getRooms(){
+    return this.http.get<Room[]>('/api/rooms')
+  }
+
+  addRoom(room: Room){
+    return this.http.post<Room[]>('/api/rooms', room)
+  }
+
+  updateRoom(room: Room){
+    return this.http.put<Room[]>(`/api/rooms/${room.roomNumber}`, room)
+  }
+
+  deleteRoom(id: string){
+    return this.http.delete<Room[]>(`/api/rooms/${id}`)
+  }
+
+  getPhotos(){
+    const request= new HttpRequest(
+      'GET',
+      'https://jsonplaceholder.typicode.com/photos',
+      {
+        reportProgress: true
+      }
+    );
+    return this.http.request(request)
+  }
 }
