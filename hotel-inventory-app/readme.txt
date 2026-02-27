@@ -37,3 +37,17 @@ Observables and Http request:
     you can subscribe to the api's to get the stream of data which works on a push based architecture
     you can also create your own Observable which monitors the data using the observer
         it returns 3 types of functionality: next, complete and error
+HttpRequest:
+    Instead of using HttpClient to make the call we can use HttpRequest
+    we get the entire response instead of just the body which consists of
+        headers, body and others
+Rxjs operators using streams:
+    Instead of subscribing to a method which needs to be called at the start of the application
+        we can use stream with pipes to automatically unsubscribe to an observer
+    using pipes we can perform:
+        share Reply(): share the single response among multiple renderers across DOM using same service
+        catch(): catch the errors using <Subject> .next() and store it inside a Observable<> stream$ variable
+        once the Observable<> stream$ is available we can subscribe to it using async | within the DOM
+
+        
+

@@ -16,7 +16,10 @@
 <!-- {{rooms | json}} -->
 <app-header></app-header>
 <h3>{{downloadedBytes}} Bytes Loaded</h3>
-<h3>{{getError$ | async}}</h3>
+<h3>
+    {{getError$ | async}}
+    Rooms Count: {{roomLength$ | async}}
+</h3>
 @if(showRooms && (rooms$ | async); as rooms){
     <div>
     <app-rooms-list

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RoomsList } from "./rooms-list/rooms-list";
 import { Header } from '../header/header';
 import { RoomService } from './service/room-service';
-import { Observable } from 'rxjs';
+import { map, Observable, reduce } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -24,6 +24,7 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
   downloadedBytes= 0
   rooms$!: Observable<Room[]>;
   getError$!: Observable<string>;
+  roomLength$!: Observable<number>;
 
   stream= new Observable((observer)=>{
     observer.next("user1")
@@ -40,7 +41,10 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
   ngOnInit(): void {
     this.getError$= this.roomService.error$.asObservable();
     this.rooms$= this.roomService.getRooms$;
-    console.log(this.getError$);
+    this.roomLength$= this.roomService.getRooms$.pipe(
+      map((rooms)=> rooms.length)
+    )
+    // console.log(this.getError$);
 
     this.roomService.getPhotos().subscribe((event)=>{
       switch (event.type){
@@ -111,8 +115,10 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
     this.increamentedId++
     // this.rooms= [...this.rooms, room]
     this.roomService.addRoom(room).subscribe((rooms)=>{
-      this.rooms= rooms
-      this.cdr.detectChanges()
+      // this.rooms= rooms
+      // this.cdr.detectChanges()
+      this.rooms$= this.roomService.getRooms$;
+      // this.cdr.detectChanges()
     })
   }
 

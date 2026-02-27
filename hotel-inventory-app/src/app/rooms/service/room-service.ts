@@ -3,14 +3,17 @@ import { Room } from '../Room';
 import { APP_CONFIG_SERVICE } from '../../appConfig/appconfig.service';
 import { AppConfig } from '../../appConfig/appconfig';
 import { LocalStorageToken } from '../../LocalStorage';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, of, shareReplay, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoomService {
+  getRooms$!: Observable<Room[]>;
+  rooms: Room[]= []
   error$= new Subject<string>()
+  // headers= new HttpHeaders({'token': '123123123'})
 
   constructor(
   @Inject(APP_CONFIG_SERVICE) private config: AppConfig,
@@ -21,7 +24,7 @@ export class RoomService {
     console.log("Room Service Initialized");
     
     this.localStorage.setItem("name", "hitesh Choudary");
-    this.getRooms$= this.http.get<Room[]>('/api/room').pipe(
+    this.getRooms$= this.http.get<Room[]>('/api/rooms').pipe(
       shareReplay(1),
       catchError((err)=>{
         this.error$.next(err.message)
@@ -59,8 +62,6 @@ export class RoomService {
   //     rating: 2.6
   //   },
   // ]
-  getRooms$!: Observable<Room[]>;
-  rooms: Room[]= []
 
   getRooms(){
     return this.http.get<Room[]>('/api/rooms')

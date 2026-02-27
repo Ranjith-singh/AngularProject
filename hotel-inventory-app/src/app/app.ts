@@ -13,8 +13,8 @@ import { RoomService } from './rooms/service/room-service';
   styleUrl: './app.scss',
   providers: [
     {
-    provide: APP_CONFIG_SERVICE,
-    useValue: APP_CONFIG
+      provide: APP_CONFIG_SERVICE,
+      useValue: APP_CONFIG
     },
     RoomService
   ]
