@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, QueryList, signal, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, APP_INITIALIZER, Component, ElementRef, QueryList, signal, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Rooms } from "./rooms/rooms";
 import { Container } from "./container/container";
 import { Employee } from "./employee/employee";
 import { APP_CONFIG, APP_CONFIG_SERVICE } from './appConfig/appconfig.service';
 import { RoomService } from './rooms/service/room-service';
+import { InitService } from './init-service';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,10 @@ export class App implements AfterViewInit{
   dish: string= "shawarma"
   user: string= 'admin'
   order: boolean= true
+
+  constructor(private initService: InitService){
+    console.log(this.initService.config);
+  }
 
   toggle(): void{
     this.order= !this.order

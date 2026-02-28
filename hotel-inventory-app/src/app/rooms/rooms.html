@@ -18,12 +18,13 @@
 <h3>{{downloadedBytes}} Bytes Loaded</h3>
 <h3>
     {{getError$ | async}}
-    Rooms Count: {{roomLength$ | async}}
+    <!-- Rooms Count: {{roomLength$ | async}} -->
 </h3>
-@if(showRooms && (rooms$ | async); as rooms){
+<!-- @if(showRooms && (rooms$ | async); as rooms){ -->
+@if(showRooms && (getRooms$ | async); as rooms){
     <div>
     <app-rooms-list
-        [rooms]="rooms$ | async"
+        [rooms]="rooms"
         [title]="title"
         (selectedRoom)="displaySelectedRoom($event)"
     >

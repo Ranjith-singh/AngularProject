@@ -4,12 +4,13 @@ import { APP_CONFIG_SERVICE } from '../../appConfig/appconfig.service';
 import { AppConfig } from '../../appConfig/appconfig';
 import { LocalStorageToken } from '../../LocalStorage';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { catchError, Observable, of, shareReplay, Subject } from 'rxjs';
+import { catchError, map, Observable, of, shareReplay, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoomService {
+  roomsSubject$= new Subject<Room[]>();
   getRooms$!: Observable<Room[]>;
   rooms: Room[]= []
   error$= new Subject<string>()
@@ -18,19 +19,33 @@ export class RoomService {
   constructor(
   @Inject(APP_CONFIG_SERVICE) private config: AppConfig,
   @Inject(LocalStorageToken) private localStorage: Storage,
-  private http: HttpClient,){
+  private http: HttpClient){
     // console.log(environment.apiEndpoint);
     console.log(config.apiEndpoint);
     console.log("Room Service Initialized");
     
-    this.localStorage.setItem("name", "hitesh Choudary");
+    // this.localStorage.setItem("name", "hitesh Choudary");
+
     this.getRooms$= this.http.get<Room[]>('/api/rooms').pipe(
+      tap((rooms)=>{
+        this.roomsSubject$.next(rooms)
+      }),
       shareReplay(1),
       catchError((err)=>{
         this.error$.next(err.message)
         return of([]);
       })
     );
+    // this.http.get<Room[]>('/api/rooms').pipe(
+    //   shareReplay(1),
+    //   tap((rooms)=>{
+    //     this.roomsSubject.next(rooms)
+    //   }),
+    //   catchError((err)=>{
+    //     this.error$.next(err.message)
+    //     return of([]);
+    //   })
+    // );
   }
 
   // rooms: Room[] = [
@@ -68,7 +83,24 @@ export class RoomService {
   }
 
   addRoom(room: Room){
-    return this.http.post<Room[]>('/api/rooms', room)
+    return this.http.post<Room[]>('/api/rooms', room).pipe(
+      tap((rooms)=>{
+        this.roomsSubject$.next(rooms)
+      })
+    )
+    // return this.http.post<Room[]>('/api/rooms', room)
+    // return this.http.post<Room[]>('/api/rooms', room).pipe(
+    //   map((rooms)=>{
+    //     this.getRooms$= this.http.get<Room[]>('/api/rooms').pipe(
+    //       shareReplay(1),
+    //       catchError((err)=>{
+    //         this.error$.next(err.message)
+    //         return of([]);
+    //       })
+    //     );
+    //   })
+    // )
+    // this.roomsSubject.next(rooms)
   }
 
   updateRoom(room: Room){

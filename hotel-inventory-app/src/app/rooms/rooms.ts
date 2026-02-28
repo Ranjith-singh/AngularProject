@@ -22,9 +22,11 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
   title: string= 'Room Lists...'
 
   downloadedBytes= 0
-  rooms$!: Observable<Room[]>;
+  getRooms$!: Observable<Room[]>;
+  // rooms$!: Observable<Room[]>;
+  // rooms1$!: Observable<Room[]>;
   getError$!: Observable<string>;
-  roomLength$!: Observable<number>;
+  // roomLength$!: Observable<number>;
 
   stream= new Observable((observer)=>{
     observer.next("user1")
@@ -40,10 +42,12 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
 
   ngOnInit(): void {
     this.getError$= this.roomService.error$.asObservable();
-    this.rooms$= this.roomService.getRooms$;
-    this.roomLength$= this.roomService.getRooms$.pipe(
-      map((rooms)=> rooms.length)
-    )
+    this.getRooms$= this.roomService.roomsSubject$.asObservable();
+    // this.rooms$= this.roomService.getRooms$;
+    // this.rooms1$= this.roomService.roomsSubject.asObservable();
+    // this.roomLength$= this.roomService.getRooms$.pipe(
+    //   map((rooms)=> rooms.length)
+    // )
     // console.log(this.getError$);
 
     this.roomService.getPhotos().subscribe((event)=>{
@@ -115,9 +119,9 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
     this.increamentedId++
     // this.rooms= [...this.rooms, room]
     this.roomService.addRoom(room).subscribe((rooms)=>{
-      // this.rooms= rooms
-      // this.cdr.detectChanges()
-      this.rooms$= this.roomService.getRooms$;
+      this.rooms= rooms
+      this.cdr.detectChanges()
+      // this.rooms$= this.roomService.getRooms$;
       // this.cdr.detectChanges()
     })
   }
