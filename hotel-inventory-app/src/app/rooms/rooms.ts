@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, OnInit, ViewChild, ChangeDetectorRef, Inject, inject } from '@angular/core';
 import { Room } from './Room';
 import { CommonModule } from '@angular/common';
 import { RoomsList } from "./rooms-list/rooms-list";
@@ -6,6 +6,7 @@ import { Header } from '../header/header';
 import { RoomService } from './service/room-service';
 import { map, Observable, reduce } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rooms',
@@ -27,6 +28,7 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
   // rooms1$!: Observable<Room[]>;
   getError$!: Observable<string>;
   // roomLength$!: Observable<number>;
+  private router= inject(Router)
 
   stream= new Observable((observer)=>{
     observer.next("user1")
@@ -38,13 +40,19 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
 
   @ViewChild(Header, {static: true}) headerComponent!: Header
 
-  constructor(private cdr: ChangeDetectorRef, private roomService: RoomService) {}
+  constructor(private cdr: ChangeDetectorRef,
+  private roomService: RoomService,
+  // @Inject(Router) private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getError$= this.roomService.error$.asObservable();
     this.getRooms$= this.roomService.roomsSubject$.asObservable();
+    // this.getRooms$= this.roomService.rooms$;
+
     // this.rooms$= this.roomService.getRooms$;
     // this.rooms1$= this.roomService.roomsSubject.asObservable();
+
     // this.roomLength$= this.roomService.getRooms$.pipe(
     //   map((rooms)=> rooms.length)
     // )
@@ -87,7 +95,6 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
       complete: ()=> console.log("completed"),
       error: (err)=> console.log("error", err)
     })
-
   }
   ngDoCheck(): void {
       console.log("Changes from Do Check")
@@ -97,6 +104,7 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
       this.headerComponent.title = 'Dracaris';
       this.cdr.detectChanges();
   }
+
   toggle(): void {
     this.showRooms = !this.showRooms;
     this.title= "Hello"
@@ -105,6 +113,10 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
     this.selectedRoom= room
     console.log(room)
   }
+  navigateToRoute(room: Room){
+    this.router.navigate(['/rooms',room.roomNumber])
+  }
+
   addRoom(){
     const room: Room= {
         roomNumber: this.increamentedId.toString() ,

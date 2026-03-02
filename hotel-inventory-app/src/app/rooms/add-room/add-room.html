@@ -1,0 +1,114 @@
+{{roomForm.valid}}
+{{roomForm.invalid}}
+{{roomForm.pristine}}
+{{roomForm.dirty}}
+{{roomForm.value | json}}
+
+@if(successMessage()){
+    <div class="alert alert-success">
+        {{successMessage()}}
+    </div>
+}
+
+<form #roomForm="ngForm" (ngSubmit)="addRoom(roomForm)">
+    <div class="form-group">
+        <input class="form-control"
+            type="text"
+            placeholder="Room Type"
+            name="roomType"
+            [(ngModel)]="room.roomType"
+            required
+        />
+    </div>
+    <div class="form-group">
+        <input #roomAmenities="ngModel"
+            class="form-control"
+            type="text"
+            placeholder="Amenities"
+            name="amenities"
+            [(ngModel)]="room.amenities"
+            required
+            minlength="5"
+            maxlength="25"
+        />
+        @if(roomAmenities.dirty
+            && roomAmenities.errors?.['minlength']
+        ){
+            <div class="alert alert-danger">
+                Amenities should have a min length of 5
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <input class="form-control"
+            type="number"
+            placeholder="Price"
+            name="price"
+            [(ngModel)]="room.price"
+            required
+        />
+    </div>
+    <div class="form-group">
+        <input #roomPhotos="ngModel"
+            class="form-control" 
+            type="text" 
+            placeholder="Photos Url" 
+            name="photos" 
+            [(ngModel)]="room.photos"
+        />
+    </div>
+    @if(roomPhotos.dirty && roomPhotos.errors){
+        {{roomPhotos.errors | json}}
+    }
+    <!-- <div class="form-group">
+        <input #roomPhotos="ngModel"
+            class="form-control" 
+            type="text" 
+            placeholder="Photos Url" 
+            name="photos" 
+            [(ngModel)]="room.photos"
+            required
+            email
+            pattern="^[a-zA-Z][a-zA-Z0-9+_]*@[a-zA-Z]{4,5}.[a-zA-Z]{2,3}$"
+        />
+        {{roomPhotos.errors | json}}
+    </div> -->
+    <div class="form-group">
+        <input class="form-control" 
+            type="datetime" 
+            placeholder="Check In" 
+            name="checkinTime" 
+            [(ngModel)]="room.checkinTime"
+            required
+        />
+    </div>
+    <div class="form-group">
+        <input class="form-control" 
+            type="datetime" 
+            placeholder="Check Out" 
+            name="checkoutTime" 
+            [(ngModel)]="room.checkoutTime"
+            required
+        />
+    </div>
+    <div class="form-group">
+        <input class="form-control" 
+            type="number" 
+            placeholder="Rating" 
+            name="rating" 
+            [(ngModel)]="room.rating"
+            required
+            min="1"
+            max="5"
+        />
+    </div>
+    <div class="form-group">
+        <button
+            [disabled]="roomForm.invalid"
+            class="btn btn-primary" 
+            type="submit"
+            >
+            Submit
+        </button>
+    </div>
+</form>

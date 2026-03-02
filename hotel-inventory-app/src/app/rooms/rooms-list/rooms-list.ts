@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { Room } from '../Room';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-rooms-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './rooms-list.html',
   styleUrl: './rooms-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

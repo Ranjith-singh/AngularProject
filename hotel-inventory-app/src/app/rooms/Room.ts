@@ -1,5 +1,5 @@
 export interface Room{
-    roomNumber: string;
+    roomNumber?: string;
     roomType: string;
     amenities: string;
     price: number;

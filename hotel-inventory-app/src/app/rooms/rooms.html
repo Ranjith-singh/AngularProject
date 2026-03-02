@@ -23,10 +23,16 @@
 <!-- @if(showRooms && (rooms$ | async); as rooms){ -->
 @if(showRooms && (getRooms$ | async); as rooms){
     <div>
-    <app-rooms-list
+    <!-- <app-rooms-list
         [rooms]="rooms"
         [title]="title"
         (selectedRoom)="displaySelectedRoom($event)"
+    >
+    </app-rooms-list> -->
+    <app-rooms-list
+        [rooms]="rooms"
+        [title]="title"
+        (selectedRoom)="navigateToRoute($event)"
     >
     </app-rooms-list>
     <button

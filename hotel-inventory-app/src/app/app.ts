@@ -1,15 +1,23 @@
-import { AfterViewInit, APP_INITIALIZER, Component, ElementRef, QueryList, signal, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, QueryList, signal, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
+import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { Rooms } from "./rooms/rooms";
 import { Container } from "./container/container";
 import { Employee } from "./employee/employee";
 import { APP_CONFIG, APP_CONFIG_SERVICE } from './appConfig/appconfig.service';
 import { RoomService } from './rooms/service/room-service';
 import { InitService } from './init-service';
+import { NavigationComponent } from "./navigation/navigation.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Rooms, Container, Employee],
+  imports: [RouterOutlet,
+    Rooms,
+    Container,
+    Employee,
+    RouterLinkWithHref,
+    NavigationComponent,
+    FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers: [
@@ -20,28 +28,28 @@ import { InitService } from './init-service';
     RoomService
   ]
 })
-export class App implements AfterViewInit{
+export class App implements AfterViewInit {
   protected readonly title = signal('Hotel Inventory');
 
-  @ViewChild('user', {read: ViewContainerRef}) mainTemplate!: ViewContainerRef
+  @ViewChild('user', { read: ViewContainerRef }) mainTemplate!: ViewContainerRef
   @ViewChild('div') name!: ElementRef
   @ViewChildren('div') names!: QueryList<ElementRef>
 
-  hotelName: string= "Salamat"
-  dish: string= "shawarma"
-  user: string= 'admin'
-  order: boolean= true
+  hotelName: string = "Salamat"
+  dish: string = "shawarma"
+  user: string = 'admin'
+  order: boolean = true
 
-  constructor(private initService: InitService){
+  constructor(private initService: InitService) {
     console.log(this.initService.config);
   }
 
-  toggle(): void{
-    this.order= !this.order
+  toggle(): void {
+    this.order = !this.order
   }
   ngAfterViewInit(): void {
-      this.mainTemplate?.createComponent(Rooms)
-      this.name.nativeElement.innerHTML= "<h3>Surprise Mother Father</h3>"
-      this.names.last.nativeElement.innerHTML= "<h6>Wow how did you..<h6>"
+    this.mainTemplate?.createComponent(Rooms)
+    this.name.nativeElement.innerHTML = "<h3>Surprise Mother Father</h3>"
+    this.names.last.nativeElement.innerHTML = "<h6>Wow how did you..<h6>"
   }
 }
