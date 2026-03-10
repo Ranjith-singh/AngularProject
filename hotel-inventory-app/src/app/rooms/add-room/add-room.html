@@ -32,7 +32,8 @@
             maxlength="25"
         />
         @if(roomAmenities.dirty
-            && roomAmenities.errors?.['minlength']
+            && (roomAmenities.errors?.['minlength']
+            || roomAmenities.errors?.['required'])
         ){
             <div class="alert alert-danger">
                 Amenities should have a min length of 5
