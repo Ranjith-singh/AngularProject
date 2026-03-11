@@ -8,14 +8,19 @@ import { RoomService } from './rooms/service/room-service';
 import { InitService } from './init-service';
 import { NavigationComponent } from "./navigation/navigation.component";
 import { FormsModule } from '@angular/forms';
+import { Config } from './service/config';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,
-    Rooms,
-    Container,
-    Employee,
-    RouterLinkWithHref,
+  imports: [
+    // RouterOutlet,
+
+    // Rooms,
+    // Cause this is lazy loaded during rooms routes
+
+    // Container,
+    // Employee,
+    // RouterLinkWithHref,
     NavigationComponent,
     FormsModule],
   templateUrl: './app.html',
@@ -25,7 +30,8 @@ import { FormsModule } from '@angular/forms';
       provide: APP_CONFIG_SERVICE,
       useValue: APP_CONFIG
     },
-    RoomService
+    RoomService,
+    // Config
   ]
 })
 export class App implements AfterViewInit {
@@ -40,7 +46,10 @@ export class App implements AfterViewInit {
   user: string = 'admin'
   order: boolean = true
 
-  constructor(private initService: InitService) {
+  constructor(
+    private initService: InitService,
+    private config: Config
+  ){
     console.log(this.initService.config);
   }
 

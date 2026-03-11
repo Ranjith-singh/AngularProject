@@ -21,7 +21,7 @@ export class BookRoom implements OnInit{
     // })
     // this.id= this.router.snapshot.params['roomID']
     this.id$= this.router.params.pipe(
-      map((params)=> this.id$= params['roomID'])
+      map((params)=> params['roomID'])
     )
   }
 }

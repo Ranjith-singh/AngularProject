@@ -6,14 +6,17 @@ import { Header } from '../header/header';
 import { RoomService } from './service/room-service';
 import { map, Observable, reduce } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { Config } from '../service/config';
 
 @Component({
   selector: 'app-rooms',
-  imports: [CommonModule, RoomsList, Header],
+  imports: [CommonModule, RoomsList, Header, RouterOutlet],
   templateUrl: './rooms.html',
   styleUrl: './rooms.scss',
+  standalone: true,
   // providers: [RoomService]
+  // providers: [Config]
 })
 export class Rooms implements OnInit, DoCheck, AfterViewInit {
   showRooms: boolean = true;
@@ -42,6 +45,7 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef,
   private roomService: RoomService,
+  private config: Config
   // @Inject(Router) private router: Router
   ) {}
 
