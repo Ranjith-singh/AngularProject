@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { requestInterceptor } from './request-interceptor';
 import { InitService } from './init-service';
+import { RouteConfigToken } from './service/routeConfig.service';
 
 function initFactory(initService: InitService){
   return ()=> initService.init();
@@ -22,6 +23,10 @@ export const appConfig: ApplicationConfig = {
       useFactory: initFactory,
       deps: [InitService],
       multi: true
+    },
+    {
+      provide: RouteConfigToken,
+      useValue: {title: "home"}
     }
   ]
 };

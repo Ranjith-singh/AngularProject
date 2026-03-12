@@ -8,6 +8,7 @@ import { map, Observable, reduce } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import { Router, RouterOutlet } from '@angular/router';
 import { Config } from '../service/config';
+import { RouteConfigToken } from '../service/routeConfig.service';
 
 @Component({
   selector: 'app-rooms',
@@ -17,6 +18,12 @@ import { Config } from '../service/config';
   standalone: true,
   // providers: [RoomService]
   // providers: [Config]
+  // providers: [
+  //   {
+  //     provide: RouteConfigToken,
+  //     useValue: {token: "Room"}
+  //   }
+  // ]
 })
 export class Rooms implements OnInit, DoCheck, AfterViewInit {
   showRooms: boolean = true;

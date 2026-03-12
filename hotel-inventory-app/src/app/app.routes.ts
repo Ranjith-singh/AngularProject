@@ -6,6 +6,7 @@ import { Notfound } from './notfound/notfound';
 // import { AddRoom } from './rooms/add-room/add-room';
 // import { roomRoutes } from './rooms/rooms.routes';
 import { Login } from './login/login';
+import { loginGuard } from './login/login-guard';
 
 export const routes: Routes = [
     // {path: "rooms", component: Rooms},
@@ -15,13 +16,15 @@ export const routes: Routes = [
             import("./rooms/rooms.routes")
             .then(m=> m.roomRoutes)
             // roomRoutes
-        )
+        ),
+        canActivate: [loginGuard]
     },
     {
         path: "booking",
-        loadChildren: ()=> import('./booking/booking.routes').then((m)=> m.bookingRoutes)
+        loadChildren: ()=> import('./booking/booking.routes').then((m)=> m.bookingRoutes),
+        canActivate: [loginGuard]
     },
-    {path: "employee", component: Employee},
+    {path: "employee", component: Employee, canActivate: [loginGuard]},
     {path: "login", component: Login},
     {path: "", redirectTo: "login", pathMatch: "full"},
     // {path: "rooms/add-room", component: AddRoom},

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Hover } from './hover/hover';
 import { EmailValidator } from './emailValidator/email-validator';
 import { Router } from '@angular/router';
+import { LoginService } from './service/login-service';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,19 @@ export class Login {
   email: string= ''
   password: string= ''
 
-  constructor(private route: Router){}
+  constructor(
+    private route: Router,
+    private loginService: LoginService
+  ){}
 
+  // login(){
+  //   // alert("SuccessFull Login...")
+  //   // this.route.navigate(['/rooms', 'add-room'])
+  //   this.route.navigateByUrl('/rooms/add-room')
+  // }
   login(){
-    // alert("SuccessFull Login...")
-    // this.route.navigate(['/rooms', 'add-room'])
-    this.route.navigateByUrl('/rooms/add-room')
+    if(this.loginService.login(this.email, this.password)){
+      this.route.navigate(['/rooms'])
+    }
   }
 }

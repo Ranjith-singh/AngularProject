@@ -3,11 +3,18 @@ import { Rooms } from "./rooms";
 import { AddRoom } from "./add-room/add-room";
 import { BookRoom } from "./book-room/book-room";
 import { Config } from "../service/config";
+import { RouteConfigToken } from "../service/routeConfig.service";
 
 export const roomRoutes: Routes= [
     {
         path: '',
-        providers: [Config],
+        providers: [
+            Config,
+            {
+                provide: RouteConfigToken,
+                useValue: {title: "room"}
+            }
+        ],
         component: Rooms,
         children: [
         {path: 'add-room', component: AddRoom},

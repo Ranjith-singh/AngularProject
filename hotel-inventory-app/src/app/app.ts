@@ -1,14 +1,17 @@
 import { AfterViewInit, Component, ElementRef, QueryList, signal, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
-import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
+// import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { Rooms } from "./rooms/rooms";
-import { Container } from "./container/container";
-import { Employee } from "./employee/employee";
+// import { Container } from "./container/container";
+// import { Employee } from "./employee/employee";
 import { APP_CONFIG, APP_CONFIG_SERVICE } from './appConfig/appconfig.service';
 import { RoomService } from './rooms/service/room-service';
 import { InitService } from './init-service';
 import { NavigationComponent } from "./navigation/navigation.component";
 import { FormsModule } from '@angular/forms';
 import { Config } from './service/config';
+import { RouteConfigToken } from './service/routeConfig.service';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -48,9 +51,27 @@ export class App implements AfterViewInit {
 
   constructor(
     private initService: InitService,
-    private config: Config
+    private config: Config,
+    private router: Router
   ){
     console.log(this.initService.config);
+    // this.router.events.subscribe(
+    //   (event)=>{
+    //     console.log(event)
+    //   }
+    // )
+
+    this.router.events.pipe(
+      filter((event)=> event instanceof NavigationStart
+      || event instanceof NavigationEnd))
+      .subscribe((event)=>{
+        if(event instanceof NavigationStart){
+          console.log("Navigation Started");
+        }
+        else{
+          console.log("Navigation Ended");
+        }
+      })
   }
 
   toggle(): void {
