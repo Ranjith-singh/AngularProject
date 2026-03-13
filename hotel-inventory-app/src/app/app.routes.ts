@@ -17,12 +17,14 @@ export const routes: Routes = [
             .then(m=> m.roomRoutes)
             // roomRoutes
         ),
-        canActivate: [loginGuard]
+        canActivate: [loginGuard],
+        canMatch: [loginGuard]
     },
     {
         path: "booking",
         loadChildren: ()=> import('./booking/booking.routes').then((m)=> m.bookingRoutes),
-        canActivate: [loginGuard]
+        // canActivate: [loginGuard],
+        // canMatch: [loginGuard]
     },
     {path: "employee", component: Employee, canActivate: [loginGuard]},
     {path: "login", component: Login},

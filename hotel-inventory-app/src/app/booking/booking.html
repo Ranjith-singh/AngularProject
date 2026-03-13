@@ -1,1 +1,142 @@
 <p>booking works!</p>
+<div>{{bookingForm.value | json}}</div>
+<!-- <h3>{{bookingForm.pristine}}</h3> -->
+<h3>{{bookingForm.dirty}}</h3>
+
+<!-- roomId: new FormControl(''),
+      guestEmail: [''],
+      checkinDate: [''],
+      checkoutDate: [''],
+      bookingStatus: [''],
+      bookingAmount: [''],
+      bookingDate: [''],
+      mobileNumber: [''],
+      guestName: [''],
+      guestAddress: [''],
+      guestCity: [''],
+      guestState: [''],
+      guestCountry: [''],
+      guestZipCode: [''],
+      guestCount: [''],
+    }) -->
+
+<form [formGroup]="bookingForm"
+>
+    <mat-form-field>
+        <mat-label>Room Id</mat-label>
+        <input
+            name="roomId"
+            formControlName="roomId"
+            matInput
+            placeholder="Enter Room Id"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+            name="email"
+            formControlName="guestEmail"
+            matInput
+            placeholder="Enter guest Email"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input
+            name="name"
+            formControlName="guestName"
+            matInput
+            placeholder="Enter guest Name"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input
+            name="phoneNumber"
+            formControlName="mobileNumber"
+            matInput
+            placeholder="Enter mobile Number"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>booking Amount</mat-label>
+        <input
+            name="bookingAmount"
+            formControlName="bookingAmount"
+            matInput
+            placeholder="Enter booking Amount"
+            value=""
+            type="number"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>checkIn Date</mat-label>
+        <!-- <input
+            matInput [matDatepicker]="picker"
+            formControlName="checkinDate"
+            name="checkIn Date"
+            type="date"
+            placeholder="Enter CheckIn Date"
+        > -->
+        <input
+            matInput [matDatepicker]="picker"
+            formControlName="checkinDate"
+            name="checkIn Date"
+            readonly
+            placeholder="Select CheckIn Date"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!-- <mat-form-field>
+        <mat-label>Room Id</mat-label>
+        <input
+            formControlName="roomId"
+            matInput
+            placeholder="Enter Room Id"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Room Id</mat-label>
+        <input
+            formControlName="roomId"
+            matInput
+            placeholder="Enter Room Id"
+            value=""
+            type="text"
+        />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Room Id</mat-label>
+        <input
+            formControlName="roomId"
+            matInput
+            placeholder="Enter Room Id"
+            value=""
+            type="text"
+        />
+    </mat-form-field> -->
+    <!-- <mat-form-field class="example-full-width">
+        <mat-label>Leave a comment</mat-label>
+        <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+    </mat-form-field> -->
+    <section>
+    <div class="example-label">Outlined</div>
+    <div class="example-button-row">
+        <button matButton="outlined">Basic</button>
+        <button matButton="outlined" disabled>Disabled</button>
+        <a matButton="outlined" href="https://www.google.com/" target="_blank">Link</a>
+    </div>
+    </section>
+</form>
