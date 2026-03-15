@@ -111,9 +111,9 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
       console.log("Changes from Do Check")
   }
   ngAfterViewInit(): void {
-      console.log(this.headerComponent)
-      this.headerComponent.title = 'Dracaris';
-      this.cdr.detectChanges();
+      // console.log(this.headerComponent)
+      // this.headerComponent.title = 'Dracaris';
+      // this.cdr.detectChanges();
   }
 
   toggle(): void {

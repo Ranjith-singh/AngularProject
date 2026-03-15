@@ -15,11 +15,11 @@
 </div> -->
 <!-- {{rooms | json}} -->
 <app-header></app-header>
-<h3>{{downloadedBytes}} Bytes Loaded</h3>
+<!-- <h3>{{downloadedBytes}} Bytes Loaded</h3>
 <h3>
-    {{getError$ | async}}
+    {{getError$ | async}} -->
     <!-- Rooms Count: {{roomLength$ | async}} -->
-</h3>
+<!-- </h3> -->
 <!-- @if(showRooms && (rooms$ | async); as rooms){ -->
 @if(showRooms && (getRooms$ | async); as rooms){
     <div>
@@ -36,20 +36,23 @@
     >
     </app-rooms-list>
     <button
+        class="btn btn-success"
         (click)="addRoom()"
     >
         Add Room
     </button>
-    <button
+    <!-- <button
+        class="btn btn-primary"
         (click)="updateRoom()"
     >
         Update Room
     </button>
     <button
+        class="btn btn-danger"
         (click)="deleteRoom()"
     >
         Delete Room
-    </button>
+    </button> -->
     </div>
 }
 @if(selectedRoom){
@@ -57,8 +60,8 @@
         {{selectedRoom| json}}
     </div>
 }
-<button (click)="toggle()" [ngStyle]="{'color': showRooms? 'steelblue': 'tomato'}">
-    {{!showRooms?'Show Rooms': 'Nakko'}}
-</button>
+<!-- <button (click)="toggle()" [ngStyle]="{'color': showRooms? 'steelblue': 'tomato'}">
+    {{!showRooms?'Show Rooms': 'hide Rooms'}}
+</button> -->
 
 <router-outlet></router-outlet>
