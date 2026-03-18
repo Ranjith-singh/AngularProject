@@ -21,6 +21,15 @@
     <!-- Rooms Count: {{roomLength$ | async}} -->
 <!-- </h3> -->
 <!-- @if(showRooms && (rooms$ | async); as rooms){ -->
+{{priceFilter.value | json}}
+<div>
+    <input
+        type="number"
+        class="form-control"
+        placeholder="price"
+        [formControl]="priceFilter"
+    />
+</div>
 @if(showRooms && (getRooms$ | async); as rooms){
     <div>
     <!-- <app-rooms-list
@@ -32,6 +41,7 @@
     <app-rooms-list
         [rooms]="rooms"
         [title]="title"
+        [price]="priceFilter.value || 0"
         (selectedRoom)="navigateToRoute($event)"
     >
     </app-rooms-list>

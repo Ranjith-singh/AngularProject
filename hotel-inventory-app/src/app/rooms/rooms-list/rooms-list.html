@@ -20,7 +20,7 @@
             <td>{{room.price}}</td>
             <td>{{room.checkIn}}</td>
         </tr> -->
-    @for(room of rooms; track room.roomNumber; let e=$even; let o=$odd, let i=$index ){
+    @for(room of rooms | filter: price; track room.roomNumber; let e=$even; let o=$odd, let i=$index ){
     <tr [ngClass]="e?'even':'odd'">
         <td>{{$index | percent}}</td>
         <td>{{e?"Even":"odd"}}</td>
@@ -33,10 +33,15 @@
         <td>{{room.checkoutTime | date}}</td>
         <td>{{room.rating | number: '1.0-0'}}</td>
         <td>
-            <button
+            <!-- <button
                 [ngClass]="e? 'even': 'odd'"
                 class="btn btn-primary"
                 (click)="selectRoom(room)"
+            > -->
+            <button
+                [ngClass]="e? 'even': 'odd'"
+                class="btn btn-primary"
+                [routerLink]="['/booking', room.roomNumber]"
             >
                 Select
             </button>

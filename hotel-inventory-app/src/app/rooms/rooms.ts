@@ -9,10 +9,11 @@ import { HttpEventType } from '@angular/common/http';
 import { Router, RouterOutlet } from '@angular/router';
 import { Config } from '../service/config';
 import { RouteConfigToken } from '../service/routeConfig.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-rooms',
-  imports: [CommonModule, RoomsList, Header, RouterOutlet],
+  imports: [CommonModule, RoomsList, Header, RouterOutlet, ReactiveFormsModule],
   templateUrl: './rooms.html',
   styleUrl: './rooms.scss',
   standalone: true,
@@ -31,6 +32,7 @@ export class Rooms implements OnInit, DoCheck, AfterViewInit {
   selectedRoom!: Room
   increamentedId= 4
   title: string= 'Room Lists...'
+  priceFilter= new FormControl(15000)
 
   downloadedBytes= 0
   getRooms$!: Observable<Room[]>;

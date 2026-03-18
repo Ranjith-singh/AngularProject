@@ -73,7 +73,9 @@
     <mat-form-field>
         <mat-label>Name</mat-label>
         <input name="name" formControlName="guestName" matInput placeholder="Enter guest Name" type="text" />
+        <mat-error>Name cannot be test</mat-error>
     </mat-form-field>
+    {{bookingForm.get('guestName')?.errors | json}}
     <mat-form-field>
         <mat-label>Phone Number</mat-label>
         <input name="phoneNumber" formControlName="mobileNumber" matInput placeholder="Enter mobile Number"
@@ -105,6 +107,7 @@
             placeholder="Select CheckOut Date">
         <mat-datepicker-toggle matIconSuffix [for]="checkoutDate"></mat-datepicker-toggle>
         <mat-datepicker #checkoutDate></mat-datepicker>
+        <mat-error>CheckOut can't be before CheckIn</mat-error>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Booking Date</mat-label>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Config } from '../service/config';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { BookingService } from './service/booking-service';
-import { exhaustMap, mergeMap, switchMap } from 'rxjs';
+import { exhaustMap, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { CustomValidatorClass } from './validators/custom-validator.class';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
@@ -33,18 +35,22 @@ import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 })
 export class Booking implements OnInit {
   bookingForm!: FormGroup
-
+  bookingId!: string| null;
   constructor(
     private configService: Config,
     private formBuilder: FormBuilder,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private route: ActivatedRoute
     // private cdr: ChangeDetectorRef
   ) {
   }
 
   ngOnInit(): void {
+    this.bookingId = this.route.snapshot.paramMap.get('roomId');
     this.bookingForm = this.formBuilder.group({
-      roomId: new FormControl({value: '2', disabled: true},{validators: [Validators.required]}),
+      roomId: new FormControl({
+        value: this.bookingId,
+        disabled: true},{validators: [Validators.required]}),
       guestEmail: ['', {
         validators: [Validators.required, Validators.email],
         // updateOn: 'blur'
@@ -55,7 +61,7 @@ export class Booking implements OnInit {
       bookingAmount: [''],
       bookingDate: [''],
       mobileNumber: [''],
-      guestName: [''],
+      guestName: ['',[CustomValidatorClass.ValidatorName, CustomValidatorClass.ValidatorSplChar('*')]],
       address: this.formBuilder.group({
         AddressLine1: ['', [Validators.minLength(5)]],
         AddressLine2: [''],
@@ -71,9 +77,10 @@ export class Booking implements OnInit {
       tmc: new FormControl(false, {validators: [Validators.requiredTrue]})
       // guestCount: [''],
     },
-    // {
-    //   updateOn: 'blur'
-    // }
+    {
+      updateOn: 'blur',
+      validators: [CustomValidatorClass.dateValidator]
+    }
   )
     // this.cdr.detectChanges()
 
@@ -94,7 +101,7 @@ export class Booking implements OnInit {
         this.bookingService.addBooking(data)
       ))
       ).subscribe((data)=>{
-          console.log(data);
+          // console.log(data);
       })
   }
 
@@ -108,7 +115,7 @@ export class Booking implements OnInit {
     // console.log(this.bookingForm.value)
     console.log(this.bookingForm.getRawValue())
     this.bookingForm.reset({
-      roomId: '2',
+      // roomId: this.bookingId,
       guestEmail: '',
       checkinDate: '',
       checkoutDate: '',
@@ -133,7 +140,7 @@ export class Booking implements OnInit {
 
   getBookingData(){
     this.bookingForm.patchValue({
-      roomId: '2',
+      // roomId: this.bookingId,
       guestEmail: 'test@gmail.com',
       checkinDate: new Date('20-Mar-2026'),
       bookingStatus: '',

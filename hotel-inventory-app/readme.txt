@@ -48,6 +48,22 @@ Rxjs operators using streams:
         share Reply(): share the single response among multiple renderers across DOM using same service
         catch(): catch the errors using <Subject> .next() and store it inside a Observable<> stream$ variable
         once the Observable<> stream$ is available we can subscribe to it using async | within the DOM
+Resolve in Route Guards:
+    when we want some data to prefetch/preloaded for rendering in UI
+    example process:
+        when you request the data from the backend
+        you can use resolve Guard to store/prefetch the data
+        then access the data using the activated Route Service
+Global error Handlers:
+    angular provides its own error Handler to handle error
+    you can implement it to override the default error handing method
+    you need to add provides at app level to handle global errors
+Testing:
+    In Angular we can do unit testing using jasmine,
+        All the .spec.ts in src are considered as files to be tested
+    we can test using the describe which is higher order function/takes func as args
+        and provide tests using it and expect methods
+    you can also test the services but need to import them in the spec.ts file
 
         
 
