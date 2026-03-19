@@ -7,6 +7,8 @@ import { Notfound } from './notfound/notfound';
 // import { roomRoutes } from './rooms/rooms.routes';
 import { Login } from './login/login';
 import { loginGuard } from './login/login-guard';
+import { Comment } from './comment/comment';
+import { commentRoutes } from './comment/Comments.routes';
 
 export const routes: Routes = [
     // {path: "rooms", component: Rooms},
@@ -29,6 +31,9 @@ export const routes: Routes = [
     {path: "employee", component: Employee, canActivate: [loginGuard]},
     {path: "login", component: Login},
     {path: "", redirectTo: "login", pathMatch: "full"},
+    {path: "comments", loadChildren: ()=>(
+        commentRoutes
+    )},
     // {path: "rooms/add-room", component: AddRoom},
     // {path: "rooms/:roomID", component: BookRoom},
     {path: "**", component: Notfound}
