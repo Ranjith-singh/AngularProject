@@ -11,7 +11,7 @@ import { inject } from '@angular/core';
 //   // return true;
 // };
 
-export const loginGuard = () => {
+export const loginGuard: CanActivateFn = () => {
   const loginService= inject(LoginService)
   const router= inject(Router)
 
