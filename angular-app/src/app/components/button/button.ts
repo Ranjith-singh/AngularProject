@@ -8,8 +8,8 @@ import { NgStyle } from "@angular/common";
   styleUrl: './button.css',
 })
 export class Button implements OnInit{
-  @Input() text: string
-  @Input() color: string
+  @Input() text?: string
+  @Input() color?: string
   @Output() btnClick= new EventEmitter()
   constructor(){
 

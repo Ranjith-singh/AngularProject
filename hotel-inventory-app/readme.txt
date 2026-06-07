@@ -1,3 +1,6 @@
+Angular:
+    It is framework which has inbuilt routing, forms etc
+    It is a spa based application
 life cycle hooks and related Methods:
     ViewChild and ngAfterViewInit:
         use the view child life cycle hook to perform:

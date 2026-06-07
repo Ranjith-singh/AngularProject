@@ -11,16 +11,21 @@ import { NgStyle, NgClass } from "@angular/common";
   styleUrl: './task-item.css',
 })
 export class TaskItem {
-  @Input() task: Task
+  @Input() task?: Task
   @Output() onDeleteTask: EventEmitter<Task>= new EventEmitter();
   @Output() onToggleRemainder: EventEmitter<Task>= new EventEmitter();
   faTimes= faTimes
 
-  onDelete(task: Task){
-    this.onDeleteTask.emit(task)
+  onDelete(task: Task | undefined){
+    if(task!== undefined){
+      this.onDeleteTask.emit(task)
+    }
   }
 
-  toggleRemainder(task: Task){
+  toggleRemainder(task: Task | undefined){
+    if(task=== undefined){
+      console.log("task is not defined")
+    }
     // console.log(task.reminder)
     this.onToggleRemainder.emit(task)
   }

@@ -11,7 +11,7 @@ Angular requirements:
     you can install typescript dependency using: npm install typescript
     tsc --init: creates tsconfig.json which contains target js, module etc
 Multi page application(MPA)
-    Earlier php, asp.net based on the url change/navigate, button click etc,
+    Earlier in php, asp.net, Based on the url change/navigate, button click etc,
     the request used to go on the backend
     the javascript fetches data from DB based on the request and creates an entire new DOM
     the browsers after sending the request, delete there entire memory
@@ -45,5 +45,10 @@ Single page Application(SPA):
                     present on the current page, so it maintains search engine optimization(SEO)
             Tree Shacking:
                 removes unused imports of functions/libraries
+initialization:
+    you can create a angular workspace no default app and add multiple projects/application
+        or with single default application
+    the workspace/folder name is not case sensitive
+
 
 
