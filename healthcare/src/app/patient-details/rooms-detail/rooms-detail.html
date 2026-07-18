@@ -1,0 +1,48 @@
+<div>
+    <div>
+        <!-- {{htmlrenderer()}} -->
+        <!-- {{title}} -->
+        <hcare-header></hcare-header>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr
+            [style]="{'background-color': 'grey', 'color': 'white', 'text-align': 'center'}"
+            >
+                <th>index</th>
+                <th>Even</th>
+                <th>Odd</th>
+                <th>Room Number</th>
+                <th>Room Type</th>
+                <th>Price</th>
+                <th>CheckIn</th>
+                <th>CheckOut</th>
+                <th>Rating</th>
+                <th>Selected Room</th>
+            </tr>
+            @for (room of hospitalRoomsDetails | slice: 0:10; track $index; let e= $even) {
+            <tr
+            [ngClass]="e ? 'even': 'odd'"
+            class="table-card"
+            >
+                <td>{{$index | percent}}</td>
+                <td>{{$even}}</td>
+                <td>{{$odd}}</td>
+                <td>{{room.roomNumber}}</td>
+                <td>{{room.roomType.toString()| uppercase}}</td>
+                <td>{{room.price | currency: 'INR'}}</td>
+                <td>{{room.checkIn | date}}</td>
+                <td>{{room.checkOut | date: 'short'}}</td>
+                <td>{{room.rating | number: '1.0-2'}}</td>
+                <td>
+                    <button
+                    class="btn btn-primary"
+                    (click)="selectedRoom.emit(room)">
+                        Add
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

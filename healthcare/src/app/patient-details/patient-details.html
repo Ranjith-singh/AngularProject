@@ -1,0 +1,68 @@
+<div>
+    <span>Name of the patient: {{patientName}}</span>
+    <div #user></div>
+    <div [hidden]="showDetails()">
+        Age: <span [innerText]="age"></span>
+        <br/>
+        Address: <span [innerHTML]='`${address}`'></span>
+    </div>
+    <div>
+        <button (click)="toggle()">toggle</button>
+    </div>
+    <div>
+        <!-- {{hospitalRooms.availableRooms && hospitalRooms.availableRooms}} -->
+        {{hospitalRooms.availableRooms ?? 'No Rooms'}}
+        @if(hospitalRooms.availableRooms != undefined) {
+            {{hospitalRooms.availableRooms}}
+        }
+        {{hospitalRooms | json}}
+    </div>
+
+    @if(selectedRoom) {
+        {{selectedRoom | json}}
+    }
+    
+    @if (hospitalRooms.availableRooms && (hospitalRooms.availableRooms> 1)  && showDetails()) {
+        <!-- <div>
+            <table>
+                <tr [style]="{'background-color': 'grey', 'color': 'white'}">
+                    <th>index</th>
+                    <th>Even</th>
+                    <th>Odd</th>
+                    <th>Room Number</th>
+                    <th>Room Type</th>
+                    <th>Price</th>
+                    <th>CheckIn</th>
+                    <th>CheckOut</th>
+                    <th>Rating</th>
+                </tr>
+                @for (room of hospitalRoomsDetails | slice: 1:3; track $index; let e= $even) {
+                    <tr [ngClass]="e ? 'even': 'odd'">
+                        <td>{{$index | percent}}</td>
+                        <td>{{$even}}</td>
+                        <td>{{$odd}}</td>
+                        <td>{{room.roomNumber}}</td>
+                        <td>{{room.roomType.toString()| uppercase}}</td>
+                        <td>{{room.price | currency: 'INR'}}</td>
+                        <td>{{room.checkIn | date}}</td>
+                        <td>{{room.checkOut | date: 'short'}}</td>
+                        <td>{{room.rating | number: '1.0-2'}}</td>
+                        <td>
+                            <button
+                                (click)="selectedRoom.emit(room)"
+                            >
+
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div> -->
+        <hcare-rooms-detail
+            [hospitalRoomsDetails]="hospitalRoomsDetails"
+            [title]="title"
+            (selectedRoom)="add($event)"
+        >
+        </hcare-rooms-detail>
+    }
+</div>

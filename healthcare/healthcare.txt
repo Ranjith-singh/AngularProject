@@ -1,0 +1,2 @@
+you can use bootstarp styling or angular material styling to avoid manual effort and manual changes
+    to make it responsive and allow default styling

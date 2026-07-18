@@ -30,5 +30,8 @@ export class Login {
     if(this.loginService.login(this.email, this.password)){
       this.route.navigate(['/rooms'])
     }
+    else{
+      console.log("incorrect email or password, refer codebase");
+    }
   }
 }

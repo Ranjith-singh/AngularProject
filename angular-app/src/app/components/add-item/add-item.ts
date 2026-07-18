@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-add-item',
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './add-item.html',
   styleUrl: './add-item.css',
 })
