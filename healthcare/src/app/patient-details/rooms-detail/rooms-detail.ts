@@ -1,24 +1,38 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, 
+  ChangeDetectionStrategy, 
+  Component, 
+  DoCheck, 
+  EventEmitter, 
+  Input, 
+  OnChanges, 
+  OnInit, 
+  Output, 
+  SimpleChanges, 
+  ViewChild,
+  OnDestroy, 
+  SkipSelf} from '@angular/core';
 import { RoomList } from '../rooms';
 import { CommonModule } from '@angular/common';
 import { Header } from "../../header/header";
+import { PatientDetailsService } from '../service/patient-details-service';
 
 @Component({
   selector: 'hcare-rooms-detail',
   imports: [CommonModule, Header],
   templateUrl: './rooms-detail.html',
   styleUrls: ['./rooms-detail.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [PatientDetailsService],
 })
-export class RoomsDetail implements OnInit, OnChanges, AfterViewInit{
+export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input({required: true}) hospitalRoomsDetails?: RoomList[];
   @Input() title?: string;
   @Output() selectedRoom= new EventEmitter<RoomList>();
   @ViewChild(Header, {static: true}) headerComponent?: Header;
   
-  constructor() {
+  constructor(@SkipSelf() private patientDetailsService: PatientDetailsService) {
 
-  }
+}
 
   ngOnInit() {
     console.log(this.headerComponent);
@@ -43,5 +57,9 @@ export class RoomsDetail implements OnInit, OnChanges, AfterViewInit{
 
   htmlrenderer() {
     console.log("Html getting generated")
+  }
+
+  ngOnDestroy(): void {
+    console.log("Rooms Detail component is destroyed")
   }
 }

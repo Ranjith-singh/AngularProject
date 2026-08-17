@@ -1,13 +1,17 @@
-import {Component, OnInit, ViewContainerRef, ViewChild, ElementRef, signal, WritableSignal } from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ViewChild, ElementRef, signal, WritableSignal, Self, Optional, Inject } from '@angular/core';
 import { RoomList, Rooms, RoomType } from './rooms';
 import {CommonModule } from '@angular/common';
 import { RoomsDetail } from './rooms-detail/rooms-detail';
+import { PatientDetailsService } from './service/patient-details-service';
+import { Logger } from '../logger/logger';
+import { APP_CONFIG } from '../appConfig/app.config';
+import { APP_CONFIG_SERVICE } from '../appConfig/app.config.service';
 
 @Component({
   selector: 'hcare-patient-details',
   imports: [CommonModule, RoomsDetail],
   templateUrl: './patient-details.html',
-  styleUrl: './patient-details.scss',
+  styleUrl: './patient-details.scss'
 })
 
 export class PatientDetails implements OnInit {
@@ -26,43 +30,24 @@ export class PatientDetails implements OnInit {
   title: string= '';
   @ViewChild('user', {read: ElementRef, static: true}) elementRef?: ElementRef;
 
-  constructor() {
+  constructor(
+    private patientDetailsService: PatientDetailsService,
+    @Optional()private logger: Logger,
+    @Inject(APP_CONFIG_SERVICE) private appConfig: APP_CONFIG
+  ) {
     this.title= "Room List"
+    this.hospitalRoomsDetails= this.patientDetailsService.getHospitalRoomsDetails();
+    console.log("App Config from patient details: ", this.appConfig.apiEndpoint);
   }
 
   ngOnInit() {
     this.hospitalRooms.availableRooms=
       (this.hospitalRooms?.totalRooms ?? 0)
       - (this.hospitalRooms?.bookedRooms ?? 0);
-    this.hospitalRoomsDetails= [
-      {
-        roomNumber: 101,
-        roomType: RoomType.general,
-        price: 2000,
-        checkIn: new Date('10-17-2025'),
-        checkOut: new Date('10-19-2025'),
-        rating: 4.215
-      },
-      {
-        roomNumber: 102,
-        roomType: RoomType.luxury,
-        price: 5000,
-        checkIn: new Date('10-17-2025'),
-        checkOut: new Date('10-18-2025'),
-        rating: 4.5
-      },
-      {
-        roomNumber: 103,
-        roomType: RoomType.deluxe,
-        price: 8000,
-        checkIn: new Date('10-10-2025'),
-        checkOut: new Date('10-10-2025'),
-        rating: 3.8123
-      }
-    ];
     if(this.elementRef?.nativeElement) {
       this.elementRef.nativeElement.textContent= 'halla bol';
     }
+    this.logger?.log("PatientDetails component is created via logger service");
   }
 
   toggle() {

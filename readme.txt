@@ -45,5 +45,13 @@ Single page Application(SPA):
                     present on the current page, so it maintains search engine optimization(SEO)
             Tree Shacking:
                 removes unused imports of functions/libraries
+Class based Dependency Injection vs Value provider DI:
+    We use class based DI when the structure is fixed and known to US, In case of value provider DI
+        we use it when we want a string or obj from local, session storage or network paths where the structure
+        is not known to us
+    Value provider DI is used when one class implememnts a base class, so the obj's can be defined
+        dynamically while using DI using Injection Token
+    The Injection token based approach helps in creating indivisual token for indivisual obj's and avoids
+        tight coupling.
 
 
