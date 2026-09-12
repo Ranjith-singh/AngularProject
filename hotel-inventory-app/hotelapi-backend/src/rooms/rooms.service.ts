@@ -59,15 +59,26 @@ export class RoomsService {
   }
 
   update(id: string, updateRoomDto: UpdateRoomDto) {
-    return this.rooms.map((room) => {
+    this.rooms= this.rooms.map((room) => {
       if (room.roomNumber === id) {
-        return updateRoomDto;
+        room.roomNumber= updateRoomDto.roomNumber;
+        room.roomType= updateRoomDto.roomType;
+        room.amenities= updateRoomDto.amenities;
+        room.price= updateRoomDto.price;
+        room.photos= updateRoomDto.photos;
+        room.checkinTime= updateRoomDto.checkinTime;
+        room.checkoutTime= updateRoomDto.checkoutTime;
+        room.rating= updateRoomDto.rating;
       }
       return room;
     });
+    return this.rooms;
   }
 
   remove(id: string) {
-    return this.rooms.filter((room) => room.roomNumber !== id);
+    this.rooms= this.rooms.filter((room) => room.roomNumber !== id);
+    return this.rooms;
   }
+
+    
 }

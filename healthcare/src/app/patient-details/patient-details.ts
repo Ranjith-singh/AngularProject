@@ -1,11 +1,10 @@
-import {Component, OnInit, ViewContainerRef, ViewChild, ElementRef, signal, WritableSignal, Self, Optional, Inject } from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ViewChild, ElementRef, signal, WritableSignal, Self, Optional, Inject, ChangeDetectorRef } from '@angular/core';
 import { RoomList, Rooms, RoomType } from './rooms';
 import {CommonModule } from '@angular/common';
 import { RoomsDetail } from './rooms-detail/rooms-detail';
 import { PatientDetailsService } from './service/patient-details-service';
 import { Logger } from '../logger/logger';
-import { APP_CONFIG } from '../appConfig/app.config';
-import { APP_CONFIG_SERVICE } from '../appConfig/app.config.service';
+import { HttpDownloadProgressEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'hcare-patient-details',
@@ -18,6 +17,7 @@ export class PatientDetails implements OnInit {
   patientName: string= 'John';
   age: number= 30;
   address: string= `${this.patientName} Highway 71`;
+  protected bytesDownloaded = signal(0);
   showDetails: WritableSignal<boolean> = signal(true);
   showRooms: boolean= true;
   hospitalRooms: Rooms= {
@@ -32,12 +32,52 @@ export class PatientDetails implements OnInit {
 
   constructor(
     private patientDetailsService: PatientDetailsService,
-    @Optional()private logger: Logger,
-    @Inject(APP_CONFIG_SERVICE) private appConfig: APP_CONFIG
+    private cdr: ChangeDetectorRef
+    // @Optional()private logger: Logger
   ) {
     this.title= "Room List"
-    this.hospitalRoomsDetails= this.patientDetailsService.getHospitalRoomsDetails();
-    console.log("App Config from patient details: ", this.appConfig.apiEndpoint);
+    // this.hospitalRoomsDetails= this.patientDetailsService.getHospitalRoomsDetails();
+    this.patientDetailsService.getHospitalRoomsformBackend().subscribe((rooms)=> {
+      console.log("this.hospitalRoomsDetails", rooms);
+      this.hospitalRoomsDetails= [...rooms];
+      this.cdr.markForCheck();
+      console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
+    });
+    patientDetailsService.Observer1?.next("Hello from patient details component");
+    patientDetailsService.stream.subscribe({
+      next: (data)=> console.log("Data from observable in patient details: ", data),
+      error: (error)=> console.log("Error from observable in patient details: ", error),
+      complete: ()=> console.log("Observable is completed in patient details")
+    });
+    patientDetailsService.getPhotos().subscribe((response)=>{
+      switch(response.type) {
+        case HttpEventType.Sent:
+          console.log("request sent to server");
+          break;
+        case HttpEventType.UploadProgress:
+          console.log("Upload data sent from user");
+          break;
+        case HttpEventType.ResponseHeader:
+          console.log("Receive response header from server");
+          break;
+        case HttpEventType.DownloadProgress:
+          this.bytesDownloaded.set(response.loaded);
+          console.log(`data downloading sent from server: ${this.bytesDownloaded()}`);
+          const partialData= response as HttpDownloadProgressEvent;
+          console.log(partialData.partialText);
+          break;
+        case HttpEventType.Response:
+          console.log("Full response was received:");
+          const completeData= JSON.parse(response.body);
+          console.log(JSON.parse(completeData));
+          // console.log(response.body.toJson());
+          break;
+        case HttpEventType.User:
+          console.log("Custom event configured from user at the interpretor or backend level");
+          break;
+      }
+      console.log(response);  
+    })
   }
 
   ngOnInit() {
@@ -47,7 +87,12 @@ export class PatientDetails implements OnInit {
     if(this.elementRef?.nativeElement) {
       this.elementRef.nativeElement.textContent= 'halla bol';
     }
-    this.logger?.log("PatientDetails component is created via logger service");
+    // this.logger?.log("PatientDetails component is created via logger service");
+    // this.patientDetailsService.getHospitalRoomsformBackend().subscribe((rooms)=> {
+    //   console.log("this.hospitalRoomsDetails", rooms);
+    //   this.hospitalRoomsDetails= rooms;
+    //   console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
+    // });
   }
 
   toggle() {
@@ -65,5 +110,47 @@ export class PatientDetails implements OnInit {
     const prevHospitalRooms= this.hospitalRoomsDetails?? []
     this.hospitalRoomsDetails= [...prevHospitalRooms, room]
     // console.log(this.hospitalRoomsDetails);
+  }
+
+  updateRoom(roomID: string) {
+    const room: RoomList= {
+      roomNumber: '100',
+      roomType: RoomType.general,
+      price: 2000,
+      checkIn: new Date('10-17-2025'),
+      checkOut: new Date('10-19-2025'),
+      rating: 4.215
+    }
+    // console.log("Update Room: ", room?.roomNumber);
+    this.patientDetailsService.updateHospitalRoom(roomID, room).subscribe((rooms)=> {
+      console.log("Update Room: ", rooms);
+      this.hospitalRoomsDetails= rooms;
+      this.cdr.markForCheck();
+    });
+  }
+
+  removeRoom(roomID: string) {
+    // console.log("Update Room: ", room?.roomNumber);
+    this.patientDetailsService.removeHospitalRoom(roomID).subscribe((rooms)=> {
+      this.hospitalRoomsDetails= rooms;
+      this.cdr.markForCheck();
+    });
+  }
+
+  addDefaultRoom() {
+    const room: RoomList= {
+      roomType: RoomType.general,
+      price: 2000,
+      checkIn: new Date('10-17-2025'),
+      checkOut: new Date('10-19-2025'),
+      rating: 4.215
+    }
+    // console.log("Adding default room: ", room);
+    this.patientDetailsService.addHospitalRoom(room).subscribe((rooms)=> {
+      this.hospitalRoomsDetails= rooms;
+      this.hospitalRoomsDetails= [...this.hospitalRoomsDetails];
+      console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
+      this.cdr.markForCheck();
+    });
   }
 }

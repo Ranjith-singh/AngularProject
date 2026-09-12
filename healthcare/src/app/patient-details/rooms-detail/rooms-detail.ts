@@ -1,7 +1,6 @@
 import { AfterViewInit, 
   ChangeDetectionStrategy, 
   Component, 
-  DoCheck, 
   EventEmitter, 
   Input, 
   OnChanges, 
@@ -27,7 +26,8 @@ import { PatientDetailsService } from '../service/patient-details-service';
 export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input({required: true}) hospitalRoomsDetails?: RoomList[];
   @Input() title?: string;
-  @Output() selectedRoom= new EventEmitter<RoomList>();
+  @Output() updateRoom= new EventEmitter<string>();
+  @Output() removeRoom= new EventEmitter<string>();
   @ViewChild(Header, {static: true}) headerComponent?: Header;
   
   constructor(@SkipSelf() private patientDetailsService: PatientDetailsService) {
@@ -36,9 +36,11 @@ export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     console.log(this.headerComponent);
+    console.log("from room details", this.hospitalRoomsDetails);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.hospitalRoomsDetails);
     console.log(changes)
     if(changes['title']) {
       this.title= this.title?.toUpperCase();
@@ -55,9 +57,9 @@ export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   //   console.log("Ng DoCheck is called")
   // }
 
-  htmlrenderer() {
-    console.log("Html getting generated")
-  }
+  // htmlrenderer() {
+  //   console.log("Html getting generated")
+  // }
 
   ngOnDestroy(): void {
     console.log("Rooms Detail component is destroyed")

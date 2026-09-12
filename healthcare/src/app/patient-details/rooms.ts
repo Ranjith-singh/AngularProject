@@ -11,7 +11,7 @@ export enum RoomType {
 }
 
 export interface RoomList {
-    roomNumber: number,
+    roomNumber?: string,
     roomType: RoomType,
     price: number,
     checkIn: Date,

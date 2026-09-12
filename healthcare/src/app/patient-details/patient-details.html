@@ -58,11 +58,17 @@
                 }
             </table>
         </div> -->
-        <hcare-rooms-detail
-            [hospitalRoomsDetails]="hospitalRoomsDetails"
-            [title]="title"
-            (selectedRoom)="add($event)"
-        >
-        </hcare-rooms-detail>
+        <div [innerText]="bytesDownloaded().toString()">
+        </div>
+        <button (click)="addDefaultRoom()">Add Room</button>
+        @if(hospitalRoomsDetails) {
+            <hcare-rooms-detail
+                [hospitalRoomsDetails]="hospitalRoomsDetails"
+                [title]="title"
+                (updateRoom)="updateRoom($event)"
+                (removeRoom)="removeRoom($event)"
+            >
+            </hcare-rooms-detail>
+        }
     }
 </div>

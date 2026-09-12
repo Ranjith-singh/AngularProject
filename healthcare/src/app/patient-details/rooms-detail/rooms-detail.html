@@ -18,7 +18,8 @@
                 <th>CheckIn</th>
                 <th>CheckOut</th>
                 <th>Rating</th>
-                <th>Selected Room</th>
+                <th>Update Room</th>
+                <th>Remove Room</th>
             </tr>
             @for (room of hospitalRoomsDetails | slice: 0:10; track $index; let e= $even) {
             <tr
@@ -37,8 +38,15 @@
                 <td>
                     <button
                     class="btn btn-primary"
-                    (click)="selectedRoom.emit(room)">
-                        Add
+                    (click)="updateRoom.emit(room.roomNumber)">
+                        Update Room
+                    </button>
+                </td>
+                <td>
+                    <button
+                    class="btn btn-danger"
+                    (click)="removeRoom.emit(room.roomNumber)">
+                        Remove Room
                     </button>
                 </td>
             </tr>
