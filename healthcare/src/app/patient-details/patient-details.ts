@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewContainerRef, ViewChild, ElementRef, signal, WritableSignal, Self, Optional, Inject, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, signal, WritableSignal, ChangeDetectorRef } from '@angular/core';
 import { RoomList, Rooms, RoomType } from './rooms';
 import {CommonModule } from '@angular/common';
 import { RoomsDetail } from './rooms-detail/rooms-detail';
 import { PatientDetailsService } from './service/patient-details-service';
-import { Logger } from '../logger/logger';
 import { HttpDownloadProgressEvent, HttpEventType } from '@angular/common/http';
+import { catchError, Observable, Observer, Subject } from 'rxjs';
 
 @Component({
   selector: 'hcare-patient-details',
@@ -24,11 +24,18 @@ export class PatientDetails implements OnInit {
     totalRooms: 20,
     bookedRooms: 12
   }
+  rooms$?= new Observable<any>;
 
-  hospitalRoomsDetails?: RoomList[];
+  hospitalRoomsDetails: WritableSignal<RoomList[]>= signal([]);
   selectedRoom?: RoomList;
   title: string= '';
   @ViewChild('user', {read: ElementRef, static: true}) elementRef?: ElementRef;
+  // getRoomsErrorObserver?: Observer<string>;
+  // getRoomsError$ = new Observable((observer)=>{
+  //   this.getRoomsErrorObserver= observer;
+  // });
+  getRoomsError$ = new Subject();
+  // getRoomsErrorObserver= this.getRoomsError$.asObservable();
 
   constructor(
     private patientDetailsService: PatientDetailsService,
@@ -37,12 +44,22 @@ export class PatientDetails implements OnInit {
   ) {
     this.title= "Room List"
     // this.hospitalRoomsDetails= this.patientDetailsService.getHospitalRoomsDetails();
-    this.patientDetailsService.getHospitalRoomsformBackend().subscribe((rooms)=> {
-      console.log("this.hospitalRoomsDetails", rooms);
-      this.hospitalRoomsDetails= [...rooms];
-      this.cdr.markForCheck();
-      console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
-    });
+    // this.patientDetailsService.getHospitalRoomsformBackend().subscribe((rooms)=> {
+    //   console.log("this.hospitalRoomsDetails", rooms);
+    //   this.hospitalRoomsDetails.set(rooms);
+    //   // this.cdr.markForCheck();
+    //   console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
+    // });
+    this.rooms$= this.patientDetailsService.getRooms$?.pipe(
+      catchError((err)=>{
+        console.log(err);
+        this.getRoomsError$?.next(err.message);
+        return [];
+      })
+    );
+    // this.getRoomsError.subscribe((data)=>{
+    //   console.log(data);
+    // })
     patientDetailsService.Observer1?.next("Hello from patient details component");
     patientDetailsService.stream.subscribe({
       next: (data)=> console.log("Data from observable in patient details: ", data),
@@ -68,8 +85,8 @@ export class PatientDetails implements OnInit {
           break;
         case HttpEventType.Response:
           console.log("Full response was received:");
-          const completeData= JSON.parse(response.body);
-          console.log(JSON.parse(completeData));
+          const completeData= JSON.parse(response.body ?? '[]');
+          console.log(completeData);
           // console.log(response.body.toJson());
           break;
         case HttpEventType.User:
@@ -107,8 +124,8 @@ export class PatientDetails implements OnInit {
     console.log("selected Room: ",room?.roomNumber)
     this.selectedRoom= room;
     // this.hospitalRoomsDetails?.push(room);
-    const prevHospitalRooms= this.hospitalRoomsDetails?? []
-    this.hospitalRoomsDetails= [...prevHospitalRooms, room]
+    const prevHospitalRooms= this.hospitalRoomsDetails?? [];
+    this.hospitalRoomsDetails.set([...prevHospitalRooms(), room]);
     // console.log(this.hospitalRoomsDetails);
   }
 
@@ -122,19 +139,22 @@ export class PatientDetails implements OnInit {
       rating: 4.215
     }
     // console.log("Update Room: ", room?.roomNumber);
-    this.patientDetailsService.updateHospitalRoom(roomID, room).subscribe((rooms)=> {
-      console.log("Update Room: ", rooms);
-      this.hospitalRoomsDetails= rooms;
-      this.cdr.markForCheck();
-    });
+    // this.patientDetailsService.updateHospitalRoom(roomID, room).subscribe((rooms)=> {
+    //   console.log("Update Room: ", rooms);
+    //   this.hospitalRoomsDetails.set(rooms);
+    //   // this.cdr.markForCheck();
+    // });
+    // this.rooms$= this.patientDetailsService.updateHospitalRoom(roomID, room);
+    this.patientDetailsService.updateHospitalRoom(roomID, room);
   }
 
   removeRoom(roomID: string) {
     // console.log("Update Room: ", room?.roomNumber);
-    this.patientDetailsService.removeHospitalRoom(roomID).subscribe((rooms)=> {
-      this.hospitalRoomsDetails= rooms;
-      this.cdr.markForCheck();
-    });
+    // this.patientDetailsService.removeHospitalRoom(roomID).subscribe((rooms)=> {
+    //   this.hospitalRoomsDetails.set(rooms);
+    //   // this.cdr.markForCheck();
+    // });
+    this.patientDetailsService.removeHospitalRoom(roomID);
   }
 
   addDefaultRoom() {
@@ -146,11 +166,12 @@ export class PatientDetails implements OnInit {
       rating: 4.215
     }
     // console.log("Adding default room: ", room);
-    this.patientDetailsService.addHospitalRoom(room).subscribe((rooms)=> {
-      this.hospitalRoomsDetails= rooms;
-      this.hospitalRoomsDetails= [...this.hospitalRoomsDetails];
-      console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
-      this.cdr.markForCheck();
-    });
+    // this.patientDetailsService.addHospitalRoom(room).subscribe((rooms)=> {
+    //   // this.hospitalRoomsDetails= rooms;
+    //   this.hospitalRoomsDetails.set(rooms);
+    //   console.log("this.hospitalRoomsDetails", this.hospitalRoomsDetails);
+    //   // this.cdr.markForCheck();
+    // });
+    this.patientDetailsService.addHospitalRoom(room);
   }
 }

@@ -58,12 +58,19 @@
                 }
             </table>
         </div> -->
-        <div [innerText]="bytesDownloaded().toString()">
+        <!-- <div [innerText]="bytesDownloaded().toString()"> -->
+        <!-- </div> -->
+        <!-- <div>
+            {{rooms$ | async | json}}
+        </div> -->
+        <div>
+            {{getRoomsError$ | async}}
         </div>
         <button (click)="addDefaultRoom()">Add Room</button>
-        @if(hospitalRoomsDetails) {
+        <h1 [innerText]="bytesDownloaded()"></h1>
+        @if(rooms$ | async; as rooms) {
             <hcare-rooms-detail
-                [hospitalRoomsDetails]="hospitalRoomsDetails"
+                [hospitalRoomsDetails]="rooms"
                 [title]="title"
                 (updateRoom)="updateRoom($event)"
                 (removeRoom)="removeRoom($event)"

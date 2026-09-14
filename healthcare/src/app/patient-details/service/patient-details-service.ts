@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { RoomList, RoomType } from '../rooms';
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { Observable, Observer } from 'rxjs';
+import { catchError, Observable, Observer, shareReplay, Subject } from 'rxjs';
 import { APP_CONFIG_SERVICE } from '../../appConfig/app.config.service';
 import { APP_CONFIG } from '../../appConfig/app.config';
 import { LocalStorageToken } from '../../localStorage/LocalStorage';
@@ -12,6 +12,8 @@ import { LocalStorageToken } from '../../localStorage/LocalStorage';
 export class PatientDetailsService {
   hospitalRoomsDetails: RoomList[] = [];
   Observer1?: Observer<string>;
+  // getRooms$?: Observable<any>;
+  getRooms$= new Subject();
 
   stream= new Observable((observer)=> {
     observer.next("Hello from observable");
@@ -58,28 +60,58 @@ export class PatientDetailsService {
     this.stream.subscribe((data)=> {
       console.log("Data from observable: ", data);
     })
+    // this.http.get<RoomList[]>(`/api/Room`).pipe(
+    //   shareReplay(1)
+    // );
+    this.http.get<RoomList[]>(`/api/Rooms`, {headers: {token: "abcd"}})
+    .pipe(shareReplay(1))
+    .subscribe((rooms)=>{
+      this.getRooms$.next(rooms);
+    })
   }
 
   getHospitalRoomsDetails(): RoomList[] {
     return this.hospitalRoomsDetails;
   }
 
-  getHospitalRoomsformBackend(): Observable<RoomList[]> {
-    return this.http.get<RoomList[]>('/api/Rooms');
+  // getHospitalRoomsformBackend(): Observable<RoomList[]> {
+  //   this.getRooms$= this.http.get<RoomList[]>(`/api/Rooms`).pipe(shareReplay(1));
+  //   return this.getRooms$;
+  // }
+
+  getHospitalRoomsformBackend(): void {
+    this.http.get<RoomList[]>(`/api/Rooms`).subscribe((rooms)=>{
+      this.getRooms$.next(rooms);
+    });
   }
 
-  addHospitalRoom(room: RoomList): Observable<RoomList[]> {
-    return this.http.post<RoomList[]>('/api/Rooms', room);
+  addHospitalRoom(room: RoomList): void {
+    // return this.http.post<RoomList[]>('/api/Rooms', room);
+    // this.getRooms$= this.http.post<RoomList[]>('/api/Rooms', room);
+    // return this.getRooms$
+    this.http.post<RoomList[]>(`/api/Rooms`, room).subscribe((rooms)=>{
+      this.getRooms$.next(rooms);
+    });
   }
 
-  updateHospitalRoom(roomID: string, room: RoomList): Observable<RoomList[]> {
+  updateHospitalRoom(roomID: string, room: RoomList): void {
     console.log("RoomID", roomID);
     console.log("room", room.roomNumber);
-    return this.http.put<RoomList[]>(`/api/Rooms/${roomID}`, room);
+    // return this.http.put<RoomList[]>(`/api/Rooms/${roomID}`, room);
+    // this.getRooms$= this.http.put<RoomList[]>(`/api/Rooms/${roomID}`, room);
+    // return this.getRooms$
+    this.http.put<RoomList[]>(`/api/Rooms/${roomID}`, room).subscribe((rooms)=>{
+      this.getRooms$.next(rooms);
+    });
   }
 
-  removeHospitalRoom(roomID: string): Observable<RoomList[]> {
-    return this.http.delete<RoomList[]>(`/api/Rooms/${roomID}`);
+  removeHospitalRoom(roomID: string): void {
+    // return this.http.delete<RoomList[]>(`/api/Rooms/${roomID}`);
+    // this.getRooms$= this.http.delete<RoomList[]>(`/api/Rooms/${roomID}`);
+    // return this.getRooms$
+    this.http.delete<RoomList[]>(`/api/Rooms/${roomID}`).subscribe((rooms)=>{
+      this.getRooms$.next(rooms);
+    });
   }
 
   getPhotos() {
@@ -87,6 +119,6 @@ export class PatientDetailsService {
       reportProgress: true,
       responseType: 'text'
     });
-    return this.http.request(request);
+    return this.http.request<string>(request);
   }
 }
