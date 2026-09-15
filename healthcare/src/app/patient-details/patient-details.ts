@@ -81,7 +81,7 @@ export class PatientDetails implements OnInit {
           this.bytesDownloaded.set(response.loaded);
           console.log(`data downloading sent from server: ${this.bytesDownloaded()}`);
           const partialData= response as HttpDownloadProgressEvent;
-          console.log(partialData.partialText);
+          // console.log(partialData.partialText);
           break;
         case HttpEventType.Response:
           console.log("Full response was received:");

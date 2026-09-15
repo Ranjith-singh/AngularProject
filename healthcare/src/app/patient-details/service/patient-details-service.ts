@@ -63,7 +63,7 @@ export class PatientDetailsService {
     // this.http.get<RoomList[]>(`/api/Room`).pipe(
     //   shareReplay(1)
     // );
-    this.http.get<RoomList[]>(`/api/Rooms`, {headers: {token: "abcd"}})
+    this.http.get<RoomList[]>(`/api/Rooms`)
     .pipe(shareReplay(1))
     .subscribe((rooms)=>{
       this.getRooms$.next(rooms);

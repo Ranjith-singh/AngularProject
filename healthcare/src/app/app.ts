@@ -4,7 +4,7 @@ import { PatientDetails } from "./patient-details/patient-details";
 
 @Component({
   selector: 'hcare-root',
-  imports: [RouterOutlet, PatientDetails],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
