@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { RoomList, RoomType } from '../rooms';
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { catchError, Observable, Observer, shareReplay, Subject } from 'rxjs';
+import { catchError, Observable, Observer, ReplaySubject, shareReplay, Subject } from 'rxjs';
 import { APP_CONFIG_SERVICE } from '../../appConfig/app.config.service';
 import { APP_CONFIG } from '../../appConfig/app.config';
 import { LocalStorageToken } from '../../localStorage/LocalStorage';
@@ -13,7 +13,8 @@ export class PatientDetailsService {
   hospitalRoomsDetails: RoomList[] = [];
   Observer1?: Observer<string>;
   // getRooms$?: Observable<any>;
-  getRooms$= new Subject();
+  // getRooms$= new Subject();
+  getRooms$= new ReplaySubject(1);
 
   stream= new Observable((observer)=> {
     observer.next("Hello from observable");
