@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, signal, ViewChild, ViewContainerRef } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// import { RouterOutlet } from '@angular/router';
 import { PatientDetails } from "./patient-details/patient-details";
 import { InitService } from './init/init-service';
 import { NavComponent } from './navigation/nav/nav.component';
 
 @Component({
   selector: 'hcare-root',
-  imports: [RouterOutlet, NavComponent],
+  imports: [NavComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })

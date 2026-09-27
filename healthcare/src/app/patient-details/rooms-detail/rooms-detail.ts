@@ -14,10 +14,11 @@ import { RoomList } from '../rooms';
 import { CommonModule } from '@angular/common';
 import { Header } from "../../header/header";
 import { PatientDetailsService } from '../service/patient-details-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'hcare-rooms-detail',
-  imports: [CommonModule, Header],
+  imports: [CommonModule, Header, RouterLink],
   templateUrl: './rooms-detail.html',
   styleUrls: ['./rooms-detail.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
