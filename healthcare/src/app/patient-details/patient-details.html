@@ -75,7 +75,11 @@
         <div>
             {{getRoomsError$ | async}}
         </div>
-        <button (click)="addDefaultRoom()">Add Room</button>
+        <button class="btn btn-primary"
+            [routerLink]="['/add-rooms']"
+        >
+            Add Room
+        </button>
         <h1 [innerText]="bytesDownloaded()"></h1>
     }
 </div>

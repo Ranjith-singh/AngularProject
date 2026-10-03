@@ -1,14 +1,15 @@
-import {Component, OnInit, ViewChild, ElementRef, signal, WritableSignal, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, signal, WritableSignal, ChangeDetectorRef } from '@angular/core';
 import { RoomList, Rooms, RoomType } from './rooms';
-import {CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RoomsDetail } from './rooms-detail/rooms-detail';
 import { PatientDetailsService } from './service/patient-details-service';
 import { HttpDownloadProgressEvent, HttpEventType } from '@angular/common/http';
 import { catchError, Observable, Observer, Subject } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'hcare-patient-details',
-  imports: [CommonModule, RoomsDetail],
+  imports: [CommonModule, RoomsDetail, RouterLink],
   templateUrl: './patient-details.html',
   styleUrl: './patient-details.scss'
 })

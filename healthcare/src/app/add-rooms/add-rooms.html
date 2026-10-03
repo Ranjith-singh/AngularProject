@@ -1,0 +1,119 @@
+<div>
+    {{roomsForm.valid | json}}
+    {{roomsForm.invalid | json}}
+    {{roomsForm.pristine | json}}
+    {{roomsForm.dirty | json}}
+    {{roomsForm.value | json}}
+</div>
+@if(sucessMessage != '') {
+    <div class="alert alert-success">
+        {{sucessMessage}}
+    </div>
+}
+<form
+    #roomsForm="ngForm"
+    (ngSubmit)="addRoom(roomsForm)"
+>
+    <div class="form-group">
+        <input
+            [minlength]="5"
+            [maxlength]="20"
+            #roomsroomType="ngModel"
+            required
+            class="form-control"
+            type="text"
+            name="roomType"
+            placeholder="roomType"
+            [(ngModel)]="room.roomType"
+        />
+        @if (roomsroomType.dirty 
+        && roomsroomType.errors) {
+            <div class="alert alert-danger">
+                {{roomsroomType.errors | json}}
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <input
+            #roomsPrice="ngModel"
+            required
+            class="form-control"
+            type="number"
+            name="price"
+            placeholder="price"
+            [(ngModel)]="room.price"
+        />
+        @if (roomsPrice.dirty && roomsPrice.errors) {
+            <div class="alert alert-danger">
+                {{roomsPrice.errors | json}}
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <input
+            #roomsCheckIn="ngModel"
+            required
+            class="form-control"
+            type="datetime"
+            name="checkIn"
+            placeholder="checkIn"
+            [(ngModel)]="room.checkIn"
+        />
+        @if (roomsCheckIn.dirty && roomsCheckIn.errors) {
+            <div class="alert alert-danger">
+                {{roomsCheckIn.errors | json}}
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <input
+            #roomscheckOut="ngModel"
+            required
+            class="form-control"
+            type="datetime"
+            name="checkOut"
+            placeholder="checkOut"
+            [(ngModel)]="room.checkOut"
+        />
+        @if (roomscheckOut.dirty && roomscheckOut.errors) {
+            <div class="alert alert-danger">
+                {{roomscheckOut.errors | json}}
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <input
+            #roomsRating="ngModel"
+            required
+            [min]="1"
+            [max]="5"
+            class="form-control"
+            type="number"
+            name="rating"
+            placeholder="rating"
+            [(ngModel)]="room.rating"
+        />
+        @if (roomsRating.dirty && roomsRating.errors) {
+            <div class="alert alert-danger">
+                {{roomsRating.errors | json}}
+            </div>
+        }
+    </div>
+    <div>
+        <button
+            class="btn btn-primary form-buttons"
+            type="submit"
+            [disabled]="roomsForm.invalid"
+        >
+            Submit
+        </button>
+        <button
+            class="btn btn-primary form-buttons"
+            type="button"
+            [disabled]="roomsForm.pristine"
+            (click)="reset(roomsForm)"
+        >
+            Reset
+        </button>
+    </div>
+</form>
