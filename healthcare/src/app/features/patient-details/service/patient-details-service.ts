@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { RoomList, RoomType } from '../rooms';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, Observer, ReplaySubject, shareReplay, Subject } from 'rxjs';
-import { APP_CONFIG_SERVICE } from '../../appConfig/app.config.service';
-import { APP_CONFIG } from '../../appConfig/app.config';
-import { LocalStorageToken } from '../../localStorage/LocalStorage';
+import { APP_CONFIG_SERVICE } from '../../../appService/appConfig/app.config.service';
+import { APP_CONFIG } from '../../../appService/appConfig/app.config';
+import { LocalStorageToken } from '../../../appService/localStorage/LocalStorage';
 
 @Injectable({
   providedIn: 'root',

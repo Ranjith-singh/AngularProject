@@ -1,0 +1,41 @@
+<form (ngSubmit)="login()">
+    <div 
+        class="form-group"
+    >
+        <input
+            hcareHover="#FF7F7F"
+            class="form-control"
+            type="text"
+            placeholder="Enter your Email"
+            name="email"
+            [(ngModel)]="email"
+            hcareEmailValidator
+            #emailControl="ngModel"
+        />
+         @if(emailControl.errors && emailControl.dirty) {
+            <div>
+                {{emailControl.errors | json}}
+            </div>
+        }
+    </div>
+    <div 
+        class="form-group"
+    >
+        <input
+            hcareHover
+            class="form-control"
+            type="password"
+            placeholder="Enter Your password"
+            name="password"
+            [(ngModel)]="password"
+        />
+    </div>
+    <div>
+        <button
+            class="btn btn-primary"
+            type="submit"
+        >
+            Login
+        </button>
+    </div>
+</form>

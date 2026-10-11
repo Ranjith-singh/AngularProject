@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { PatientDetails } from './patient-details/patient-details';
-import { Employee } from './employee/employee';
-import { Notfound } from './notfound/notfound';
-import { BookRoom } from './book-room/book-room';
-import { AddRooms } from './add-rooms/add-rooms';
+import { Employee } from './features/employee/employee';
+import { Notfound } from './features/notfound/notfound';
+import { Login } from './features/login/login';
 
-export const    routes: Routes = [
-    {path: `rooms`, component: PatientDetails},
+export const routes: Routes = [
+    {path: `rooms`, loadChildren :
+        ()=> import('./features/patient-details/patient-details.routes')
+        .then(patientDetails=> patientDetails.PATIENT_ROUTES)
+    },
     {path: `employee`, component: Employee},
-    {path: `add-rooms`, component: AddRooms},
-    {path: ``, redirectTo: `rooms`, pathMatch: 'full'},
-    {path: `rooms/:id`, component: BookRoom},
+    {path: `login`, component: Login},
+    {path: ``, redirectTo: `login`, pathMatch: 'full'},
     {path: `**`, component: Notfound}
     // {path: ``, component: PatientDetails}
 ];

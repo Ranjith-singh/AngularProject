@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, signal, ViewChild, ViewContainerRef } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
-import { PatientDetails } from "./patient-details/patient-details";
-import { InitService } from './init/init-service';
-import { NavComponent } from './navigation/nav/nav.component';
+import { PatientDetails } from "./features/patient-details/patient-details";
+import { InitService } from './appService/init/init-service';
+import { NavComponent } from './features/navigation/nav/nav.component';
 
 @Component({
   selector: 'hcare-root',
