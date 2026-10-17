@@ -9,6 +9,7 @@
     <div>
         <button (click)="toggle()">toggle</button>
     </div>
+    <router-outlet></router-outlet>
     <div>
         <!-- {{hospitalRooms.availableRooms && hospitalRooms.availableRooms}} -->
         {{hospitalRooms.availableRooms ?? 'No Rooms'}}
@@ -76,7 +77,7 @@
             {{getRoomsError$ | async}}
         </div>
         <button class="btn btn-primary"
-            [routerLink]="['/rooms', 'add-rooms']"
+            [routerLink]="['add-rooms']"
         >
             Add Room
         </button>

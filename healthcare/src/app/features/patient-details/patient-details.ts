@@ -1,17 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef, signal, WritableSignal, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, signal, WritableSignal, ChangeDetectorRef, Inject } from '@angular/core';
 import { RoomList, Rooms, RoomType } from './rooms';
 import { CommonModule } from '@angular/common';
 import { RoomsDetail } from './rooms-detail/rooms-detail';
 import { PatientDetailsService } from './service/patient-details-service';
 import { HttpDownloadProgressEvent, HttpEventType } from '@angular/common/http';
 import { catchError, Observable, Observer, Subject } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { ConfigService } from '../../appService/config/config.service';
+import { Config } from '../../appService/config/config';
+import { ConfigInterface } from '../../appService/config/config.interface';
 
 @Component({
   selector: 'hcare-patient-details',
-  imports: [CommonModule, RoomsDetail, RouterLink],
+  imports: [CommonModule, RoomsDetail, RouterLink, RouterOutlet],
   templateUrl: './patient-details.html',
-  styleUrl: './patient-details.scss'
+  styleUrl: './patient-details.scss',
+  providers: [
+    {
+      provide: Config,
+      useValue: { title: 'room'}
+    }
+  ]
 })
 
 export class PatientDetails implements OnInit {
@@ -40,9 +49,13 @@ export class PatientDetails implements OnInit {
 
   constructor(
     private patientDetailsService: PatientDetailsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private configService: ConfigService,
+    @Inject(Config) private config: ConfigInterface
     // @Optional()private logger: Logger
   ) {
+    console.log("this is config: ");
+    console.log(this.config);
     this.title= "Room List"
     // this.hospitalRoomsDetails= this.patientDetailsService.getHospitalRoomsDetails();
     // this.patientDetailsService.getHospitalRoomsformBackend().subscribe((rooms)=> {
@@ -94,7 +107,7 @@ export class PatientDetails implements OnInit {
           console.log("Custom event configured from user at the interpretor or backend level");
           break;
       }
-      console.log(response);  
+      console.log(response);
     })
   }
 

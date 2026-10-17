@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { Header } from "../../header/header";
 import { PatientDetailsService } from '../service/patient-details-service';
 import { RouterLink } from '@angular/router';
+import { ConfigService } from '../../../appService/config/config.service';
 
 @Component({
   selector: 'hcare-rooms-detail',
@@ -31,9 +32,10 @@ export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy 
   @Output() removeRoom= new EventEmitter<string>();
   @ViewChild(Header, {static: true}) headerComponent?: Header;
   
-  constructor(@SkipSelf() private patientDetailsService: PatientDetailsService) {
-
-}
+  constructor(
+    @SkipSelf() private patientDetailsService: PatientDetailsService,
+    private configService: ConfigService
+  ) {}
 
   ngOnInit() {
     console.log(this.headerComponent);

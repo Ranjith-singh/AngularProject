@@ -7,6 +7,8 @@ import { APP_CONFIG_SERVICE, APP_CONFIG_VALUE } from './appService/appConfig/app
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { interceptorInterceptor } from './appService/intercept/interceptor-interceptor';
 import { InitService } from './appService/init/init-service';
+import { Config } from './appService/config/config';
+import { title } from 'process';
 
 // function initFactory(initService: InitService){
 //   return ()=> initService.initialize();
@@ -16,7 +18,7 @@ export const appConfig: ApplicationConfig = {
   
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), 
+    provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withInterceptors([interceptorInterceptor])
@@ -28,6 +30,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG_SERVICE,
       useValue: APP_CONFIG_VALUE
+    },
+    {
+      provide: Config,
+      useValue: { title: "App"}
     }
     // {
     //   provide: APP_INITIALIZER,
