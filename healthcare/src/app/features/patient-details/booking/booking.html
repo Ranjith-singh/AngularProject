@@ -1,1 +1,110 @@
-<p>booking works!</p>
+<div>
+    {{bookingGroup.value | json }}
+</div>
+<form class="example-form" [formGroup]="bookingGroup">
+    <mat-form-field class="example-full-width">
+        <mat-label>RoomId</mat-label>
+        <input
+            type="number"
+            required
+            matInput [formControl]="roomId"
+            placeholder="Ex. pat@example.com"
+        >
+        @if (roomId.hasError('required')) {
+            <mat-error> RoomId is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Guest Email</mat-label>
+        <input
+            type="email"
+            required
+            matInput [formControl]="guestEmail"
+            placeholder="Ex. pat@example.com"
+        >
+        @if (guestEmail.hasError('required')) {
+            <mat-error> guestEmail is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>CheckIn Date</mat-label>
+        <input
+            type="datetime"
+            required
+            matInput [matDatepicker]="checkinDatePicker" [formControl]="checkinDate"
+            placeholder="Ex. pat@example.com"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="checkinDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #checkinDatePicker></mat-datepicker>
+        @if (checkinDate.hasError('required')) {
+            <mat-error> checkinDate is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>checkoutDate</mat-label>
+        <input
+            type="datetime"
+            required
+            matInput [matDatepicker]="checkoutDatePicker" [formControl]="checkoutDate"
+            placeholder="Ex. pat@example.com"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="checkoutDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #checkoutDatePicker></mat-datepicker>
+        @if (checkoutDate.hasError('required')) {
+            <mat-error> checkoutDate is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>bookingStatus</mat-label>
+        <input
+            type="text"
+            required
+            matInput [formControl]="bookingStatus"
+            placeholder="Ex. pat@example.com"
+        >
+        @if (bookingStatus.hasError('required')) {
+            <mat-error> bookingStatus is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>bookingAmount</mat-label>
+        <input
+            type="number"
+            required
+            matInput [formControl]="bookingAmount"
+            placeholder="Ex. pat@example.com"
+        >
+        @if (bookingAmount.hasError('required')) {
+            <mat-error> bookingAmount is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>bookingDate</mat-label>
+        <input
+            type="datetime"
+            required
+            matInput [matDatepicker]="bookingDatePicker" [formControl]="bookingDate"
+            placeholder="Ex. pat@example.com"
+        >
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="bookingDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #bookingDatePicker></mat-datepicker>
+        @if (bookingDate.hasError('required')) {
+            <mat-error> bookingDate is required</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>mobileNumber</mat-label>
+        <input
+            type="number"
+            required
+            matInput [formControl]="mobileNumber"
+            placeholder="Ex. pat@example.com"
+        >
+        @if (mobileNumber.hasError('required')) {
+            <mat-error> mobileNumber is required</mat-error>
+        }
+    </mat-form-field>
+</form>

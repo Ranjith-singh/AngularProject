@@ -31,7 +31,7 @@ export class PatientDetailsService {
   ){
     console.log("PatientDetailsService is created");
     console.log("App Config from patient details: ", this.appConfig.apiEndpoint);
-    this.localStorage.setItem("name", "One for all, All for one");   
+    this.localStorage.setItem("name", "One for all, All for one");
     this.hospitalRoomsDetails= [
       {
         roomNumber: '101',
