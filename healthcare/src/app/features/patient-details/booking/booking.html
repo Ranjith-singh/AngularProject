@@ -1,17 +1,41 @@
 <div>
     {{bookingGroup.value | json }}
 </div>
-<form class="example-form" [formGroup]="bookingGroup">
+<div>
+    <button type="button" matButton="filled" (click)="addPassport()">
+        Add Passport
+    </button>
+    <button type="button" matButton="filled" (click)="removePassport()">
+        Remove Passport
+    </button>
+</div>
+<form class="example-form" [formGroup]="bookingGroup" (ngSubmit)="addBooking()">
+    @if(bookingGroup.get('passport')) {
+        <mat-form-field class="example-full-width">
+            <mat-label>Passport</mat-label>
+            <input
+                type="number"
+                required
+                matInput
+                formControlName="passport"
+                placeholder="Passport">
+            @if (bookingGroup.get('passport')?.hasError('required')
+                && bookingGroup.get('passport')?.dirty) {
+            <mat-error> passport is required</mat-error>
+            }
+        </mat-form-field>
+    }
     <mat-form-field class="example-full-width">
         <mat-label>RoomId</mat-label>
         <input
             type="number"
             required
-            matInput [formControl]="roomId"
-            placeholder="Ex. pat@example.com"
-        >
-        @if (roomId.hasError('required')) {
-            <mat-error> RoomId is required</mat-error>
+            matInput
+            formControlName ="roomId"
+            placeholder="Room Id">
+        @if (bookingGroup.get('roomId')?.hasError('required')
+            && bookingGroup.get('roomId')?.dirty) {
+        <mat-error> RoomId is required</mat-error>
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
@@ -19,26 +43,32 @@
         <input
             type="email"
             required
-            matInput [formControl]="guestEmail"
-            placeholder="Ex. pat@example.com"
-        >
-        @if (guestEmail.hasError('required')) {
-            <mat-error> guestEmail is required</mat-error>
+            matInput
+            formControlName ="guestEmail"
+            placeholder="Guest Email">
+        @if (bookingGroup.get('guestEmail')?.hasError('email')
+            && bookingGroup.get('guestEmail')?.dirty) {
+        <mat-error> email is required </mat-error>
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>CheckIn Date</mat-label>
         <input
             type="datetime"
-            required
-            matInput [matDatepicker]="checkinDatePicker" [formControl]="checkinDate"
-            placeholder="Ex. pat@example.com"
+            required matInput
+            [matDatepicker]="checkinDatePicker"
+            formControlName ="checkinDate"
+            placeholder="checkin Date"
         >
         <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="checkinDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle
+            matIconSuffix
+            [for]="checkinDatePicker">
+        </mat-datepicker-toggle>
         <mat-datepicker #checkinDatePicker></mat-datepicker>
-        @if (checkinDate.hasError('required')) {
-            <mat-error> checkinDate is required</mat-error>
+        @if (bookingGroup.get('checkinDate')?.hasError('required')
+            && bookingGroup.get('checkinDate')?.dirty) {
+        <mat-error> checkinDate is required</mat-error>
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
@@ -46,65 +76,193 @@
         <input
             type="datetime"
             required
-            matInput [matDatepicker]="checkoutDatePicker" [formControl]="checkoutDate"
-            placeholder="Ex. pat@example.com"
-        >
+            matInput
+            [matDatepicker]="checkoutDatePicker"
+            formControlName ="checkoutDate"
+            placeholder="checkout Date">
         <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="checkoutDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle
+            matIconSuffix
+            [for]="checkoutDatePicker">
+        </mat-datepicker-toggle>
         <mat-datepicker #checkoutDatePicker></mat-datepicker>
-        @if (checkoutDate.hasError('required')) {
-            <mat-error> checkoutDate is required</mat-error>
+        @if (bookingGroup.get('checkoutDate')?.hasError('required')
+            && bookingGroup.get('checkoutDate')?.dirty) {
+        <mat-error> checkoutDate is required</mat-error>
         }
     </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <mat-label>bookingStatus</mat-label>
-        <input
-            type="text"
-            required
-            matInput [formControl]="bookingStatus"
-            placeholder="Ex. pat@example.com"
-        >
-        @if (bookingStatus.hasError('required')) {
-            <mat-error> bookingStatus is required</mat-error>
+    <div class="example-full-width radio-field-color">
+        <div>
+            <mat-label>Booking Status</mat-label>
+        </div>
+        <mat-radio-group
+            aria-label="Booking status"
+            formControlName="bookingStatus">
+        @for(status of bookingStatusOptions; track status) {
+            <mat-radio-button [value]="status">{{status}}</mat-radio-button>
         }
-    </mat-form-field>
+        </mat-radio-group>
+        <mat-hint>Pick a status</mat-hint>
+        @if (bookingGroup.get('bookingStatus')?.hasError('required')
+            && bookingGroup.get('bookingStatus')?.dirty) {
+        <mat-error> bookingStatus is required</mat-error>
+        }
+    </div>
     <mat-form-field class="example-full-width">
         <mat-label>bookingAmount</mat-label>
         <input
             type="number"
-            required
-            matInput [formControl]="bookingAmount"
-            placeholder="Ex. pat@example.com"
-        >
-        @if (bookingAmount.hasError('required')) {
-            <mat-error> bookingAmount is required</mat-error>
+            matInput
+            formControlName ="bookingAmount"
+            placeholder="Booking Form">
+        @if (bookingGroup.get('bookingAmount')?.hasError('required')
+            && bookingGroup.get('bookingAmount')?.dirty) {
+        <mat-error> bookingAmount is required</mat-error>
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>bookingDate</mat-label>
         <input
-            type="datetime"
-            required
-            matInput [matDatepicker]="bookingDatePicker" [formControl]="bookingDate"
-            placeholder="Ex. pat@example.com"
-        >
+            type="date" 
+            matInput
+            [matDatepicker]="bookingDatePicker"
+            formControlName ="bookingDate"
+            placeholder="booking Date">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="bookingDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #bookingDatePicker></mat-datepicker>
-        @if (bookingDate.hasError('required')) {
-            <mat-error> bookingDate is required</mat-error>
+        @if (bookingGroup.get('bookingDate')?.hasError('required')
+            && bookingGroup.get('bookingDate')?.dirty) {
+        <mat-error> bookingDate is required</mat-error>
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
         <mat-label>mobileNumber</mat-label>
-        <input
-            type="number"
-            required
-            matInput [formControl]="mobileNumber"
-            placeholder="Ex. pat@example.com"
-        >
-        @if (mobileNumber.hasError('required')) {
-            <mat-error> mobileNumber is required</mat-error>
+        <input type="number" required matInput formControlName ="mobileNumber" placeholder="mobile Number">
+        @if (bookingGroup.get('mobileNumber')?.hasError('min')
+            && bookingGroup.get('mobileNumber')?.dirty) {
+            <mat-error> min is required</mat-error>
         }
     </mat-form-field>
+    <div formGroupName="Address" class="section">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Address </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-form-field class="example-full-width">
+                    <input
+                        type="text"
+                        required
+                        matInput formControlName="street"
+                        placeholder="Street"
+                    />
+                    @if (bookingGroup.get('street')?.hasError('required')
+                        && bookingGroup.get('street')?.dirty) {
+                        <mat-error> street is required</mat-error>
+                    }
+                    <mat-label> Street </mat-label>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input
+                        type="text"
+                        matInput formControlName="city"
+                        placeholder="city"
+                    />
+                    @if (bookingGroup.get('city')?.hasError('required')
+                        && bookingGroup.get('city')?.dirty) {
+                        <mat-error> city is required</mat-error>
+                    }
+                    <mat-label> City </mat-label>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input
+                        type="text"
+                        matInput formControlName="state"
+                        placeholder="state"
+                    />
+                    @if (bookingGroup.get('state')?.hasError('required')
+                        && bookingGroup.get('state')?.dirty) {
+                        <mat-error> state is required</mat-error>
+                    }
+                    <mat-label> state </mat-label>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input
+                        type="text"
+                        matInput formControlName="country"
+                        placeholder="country"
+                    />
+                    @if (bookingGroup.get('country')?.hasError('required')
+                        && bookingGroup.get('country')?.dirty) {
+                        <mat-error> country is required</mat-error>
+                    }
+                    <mat-label> country </mat-label>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <input
+                        type="number"
+                        matInput formControlName="zipCode"
+                        placeholder="zipCode"
+                    />
+                    @if (bookingGroup.get('zipCode')?.hasError('required')
+                        && bookingGroup.get('zipCode')?.dirty) {
+                        <mat-error> zipCode is required</mat-error>
+                    }
+                    <mat-label> zipCode </mat-label>
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div formArrayName="guestList" class="section">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Guest List </mat-panel-title>
+                </mat-expansion-panel-header>
+                @for (guest of guestList.controls; let i= $index; track guest) {
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Guest {{i}} </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div [formGroupName]="i">
+                            <mat-form-field class="example-full-width">
+                                <input
+                                    type="text"
+                                    required
+                                    matInput formControlName="name"
+                                    placeholder="name"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width">
+                                <input
+                                    type="number"
+                                    matInput formControlName="age"
+                                    placeholder="age"
+                                />
+                            </mat-form-field>
+                            <div>
+                                <button type="button" matButton="filled" (click)="removeList(i)">
+                                    Remove List
+                                </button>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                }
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="section footer">
+        <button type="button" matButton="filled" (click)="addList()">
+            Add List
+        </button>
+    </div>
+    <div>
+        <mat-checkbox formControlName="tnc">tnc</mat-checkbox>
+    </div>
+    <div class="section">
+        <button type="submit" matButton="filled" [disabled]="bookingGroup.invalid">
+            Submit
+        </button>
+    </div>
 </form>

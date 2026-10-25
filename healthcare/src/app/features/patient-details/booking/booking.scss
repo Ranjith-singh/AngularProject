@@ -6,4 +6,19 @@
 
 .example-full-width {
     width: 100%;
+    border: 1px black;
+}
+
+.section {
+    margin: 1rem;
+}
+
+.footer{
+    button {
+        margin-right: 1rem;
+    }
+}
+
+.radio-field-color {
+    background-color: rgba(154, 156, 242, 0.4);
 }
