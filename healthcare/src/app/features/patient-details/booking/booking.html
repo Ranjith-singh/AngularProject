@@ -46,9 +46,12 @@
             matInput
             formControlName ="guestEmail"
             placeholder="Guest Email">
-        @if (bookingGroup.get('guestEmail')?.hasError('email')
-            && bookingGroup.get('guestEmail')?.dirty) {
-        <mat-error> email is required </mat-error>
+        @if(bookingGroup.get('guestEmail')?.dirty) {
+            @if (bookingGroup.get('guestEmail')?.hasError('email')
+                || bookingGroup.get('guestEmail')?.hasError('required')) {
+                <mat-error> email is required </mat-error>
+            }
+            {{bookingGroup.get('guestEmail')?.errors | json}}
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
@@ -66,9 +69,13 @@
             [for]="checkinDatePicker">
         </mat-datepicker-toggle>
         <mat-datepicker #checkinDatePicker></mat-datepicker>
-        @if (bookingGroup.get('checkinDate')?.hasError('required')
-            && bookingGroup.get('checkinDate')?.dirty) {
-        <mat-error> checkinDate is required</mat-error>
+        @if (bookingGroup.get('checkinDate')?.dirty) {
+            @if (bookingGroup.get('checkinDate')?.hasError('required')) {
+                <mat-error> checkinDate is required</mat-error>
+            }
+            @if (bookingGroup.hasError('dateError')) {
+                <mat-error> checkIn Date Should be before checkout</mat-error>
+            }
         }
     </mat-form-field>
     <mat-form-field class="example-full-width">
@@ -86,9 +93,13 @@
             [for]="checkoutDatePicker">
         </mat-datepicker-toggle>
         <mat-datepicker #checkoutDatePicker></mat-datepicker>
-        @if (bookingGroup.get('checkoutDate')?.hasError('required')
-            && bookingGroup.get('checkoutDate')?.dirty) {
-        <mat-error> checkoutDate is required</mat-error>
+        @if (bookingGroup.get('checkoutDate')?.dirty) {
+            @if (bookingGroup.get('checkoutDate')?.hasError('required')) {
+                <mat-error> checkoutDate is required</mat-error>
+            }
+            @if (bookingGroup.hasError('dateError')) {
+                <mat-error> checkIn Date Should be before checkout</mat-error>
+            }
         }
     </mat-form-field>
     <div class="example-full-width radio-field-color">
@@ -123,7 +134,7 @@
     <mat-form-field class="example-full-width">
         <mat-label>bookingDate</mat-label>
         <input
-            type="date" 
+            type="date"
             matInput
             [matDatepicker]="bookingDatePicker"
             formControlName ="bookingDate"
@@ -139,9 +150,10 @@
     <mat-form-field class="example-full-width">
         <mat-label>mobileNumber</mat-label>
         <input type="number" required matInput formControlName ="mobileNumber" placeholder="mobile Number">
-        @if (bookingGroup.get('mobileNumber')?.hasError('min')
-            && bookingGroup.get('mobileNumber')?.dirty) {
-            <mat-error> min is required</mat-error>
+        @if (bookingGroup.get('mobileNumber')?.dirty) {
+            @if (bookingGroup.get('mobileNumber')?.hasError('min')) {
+                <mat-error> min is required</mat-error>
+            }
         }
     </mat-form-field>
     <div formGroupName="Address" class="section">

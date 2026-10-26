@@ -9,6 +9,9 @@ import { MatButton } from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox'
+import { BookingService } from './service/booking';
+import { exhaustMap, mergeMap, switchMap } from 'rxjs';
+import { CustomValidator } from './validators/custom-validator';
 
 export enum BOOKING_STATUS {
     PENDING = 'PENDING',
@@ -40,22 +43,34 @@ export class Booking implements OnInit {
   bookingGroup!: FormGroup;
   bookingStatusOptions = Object.values(BOOKING_STATUS);
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private bookingService: BookingService
+  ) { }
 
   ngOnInit(): void {
     this.bookingGroup = this.formBuilder.group({
       bookingId: new FormControl(''),
       roomId: new FormControl({value: '2', disabled: true}),
-      guestEmail: new FormControl('', {validators: [Validators.email, Validators.minLength(5)]}),
+      guestEmail: new FormControl('', {
+        updateOn: 'change' ,
+        validators: [
+            Validators.email,
+            Validators.minLength(5),
+            CustomValidator.validateGuestEmail,
+            CustomValidator.validateSpecialChar('!')
+          ],
+      }),
       checkinDate: new FormControl(new Date()),
       checkoutDate: new FormControl(new Date()),
       bookingStatus: new FormControl<BOOKING_STATUS | null>(null, Validators.required),
       bookingAmount: [NaN],
       bookingDate: new FormControl(new Date()),
-      mobileNumber: new FormControl('', {validators: [Validators.min(11111)]}),
+      mobileNumber: new FormControl('', {
+        validators: [Validators.min(11111)]}),
       guestName: new FormControl(''),
       Address: this.formBuilder.group({
-        street: new FormControl(''),
+        street: new FormControl('', {updateOn: 'blur'}),
         city: new FormControl(''),
         state: new FormControl(''),
         country: new FormControl(''),
@@ -69,9 +84,57 @@ export class Booking implements OnInit {
         })
       ]),
       tnc: new FormControl(false, {validators: [Validators.requiredTrue]})
+    }, {
+      updateOn: 'change', validators : [CustomValidator.validateDate]
     });
-    this.bookingGroup.hasError('mi')
+
+    // this.bookingGroup.setValue({
+    //   bookingId: '',
+    //   roomId: '2',
+    //   guestEmail: 'user@gmail.com',
+    //   checkinDate: new Date(),
+    //   checkoutDate: new Date(),
+    //   bookingStatus: null,
+    //   bookingAmount: NaN,
+    //   bookingDate: new Date(),
+    //   mobileNumber: '',
+    //   guestName: '',
+    //   Address: {
+    //     street: '',
+    //     city: '',
+    //     state: '',
+    //     country: '',
+    //     zipCode: '',
+    //   },
+    //   guestCount: NaN,
+    //   guestList: [],
+    //   tnc: false
+    // });
+    this.bookingGroup.patchValue({
+      roomId: '2',
+      guestEmail: 'user@gmail.com',
+      checkinDate: new Date(),
+      checkoutDate: new Date(),
+      bookingDate: new Date(),
+      tnc: false
+    });
     // console.log(this.guestList.controls);
+
+    // this.bookingGroup.valueChanges.subscribe((data)=> {
+    //   console.log(data);
+    //   this.bookingService.addBooking(data).subscribe();
+    // });
+    this.bookingGroup.valueChanges.pipe(
+      // mergeMap((data)=> {
+      //   return this.bookingService.addBooking(data)
+      // })
+      // switchMap((data)=> {
+      //   return this.bookingService.addBooking(data);
+      // })
+      exhaustMap((data)=> {
+        return this.bookingService.addBooking(data);
+      })
+    ).subscribe();
   }
 
   get guestList() {
