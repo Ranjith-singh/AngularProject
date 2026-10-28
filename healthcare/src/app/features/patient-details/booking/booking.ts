@@ -12,6 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox'
 import { BookingService } from './service/booking';
 import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 import { CustomValidator } from './validators/custom-validator';
+import { ActivatedRoute } from '@angular/router';
 
 export enum BOOKING_STATUS {
     PENDING = 'PENDING',
@@ -42,16 +43,22 @@ export enum BOOKING_STATUS {
 export class Booking implements OnInit {
   bookingGroup!: FormGroup;
   bookingStatusOptions = Object.values(BOOKING_STATUS);
+  roomID?: number;
 
   constructor(
     private formBuilder: FormBuilder,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private router: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.router.params.subscribe((data)=> {
+      console.log(data);
+      this.roomID= data['id'];
+    })
     this.bookingGroup = this.formBuilder.group({
       bookingId: new FormControl(''),
-      roomId: new FormControl({value: '2', disabled: true}),
+      roomId: new FormControl({value: this.roomID, disabled: true}),
       guestEmail: new FormControl('', {
         updateOn: 'change' ,
         validators: [
@@ -88,6 +95,8 @@ export class Booking implements OnInit {
       updateOn: 'change', validators : [CustomValidator.validateDate]
     });
 
+    this.bookingService.bookingFormInstance= this.bookingGroup;
+
     // this.bookingGroup.setValue({
     //   bookingId: '',
     //   roomId: '2',
@@ -111,7 +120,6 @@ export class Booking implements OnInit {
     //   tnc: false
     // });
     this.bookingGroup.patchValue({
-      roomId: '2',
       guestEmail: 'user@gmail.com',
       checkinDate: new Date(),
       checkoutDate: new Date(),

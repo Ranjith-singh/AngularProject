@@ -16,6 +16,8 @@ import { Header } from "../../header/header";
 import { PatientDetailsService } from '../service/patient-details-service';
 import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../../appService/config/config.service';
+import { pipe } from 'rxjs';
+import { FilterPipe } from './pipe/filter-pipe';
 
 @Component({
   selector: 'hcare-rooms-detail',
@@ -23,7 +25,9 @@ import { ConfigService } from '../../../appService/config/config.service';
   templateUrl: './rooms-detail.html',
   styleUrls: ['./rooms-detail.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PatientDetailsService],
+  providers: [
+    PatientDetailsService
+  ],
 })
 export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input({required: true}) hospitalRoomsDetails?: RoomList[];

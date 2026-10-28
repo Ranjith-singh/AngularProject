@@ -22,7 +22,7 @@
                 <th>Update Room</th>
                 <th>Remove Room</th>
             </tr>
-            @for (room of hospitalRoomsDetails | slice: 0:10; track $index; let e= $even) {
+            @for (room of hospitalRoomsDetails | slice: 0:10 ; track $index; let e= $even) {
             <tr
             [ngClass]="e ? 'even': 'odd'"
             class="table-card"
@@ -39,7 +39,7 @@
                 <td>
                     <button
                     class="btn btn-primary"
-                    [routerLink]="['/rooms', room.roomNumber]">
+                    [routerLink]="['/rooms/booking', room.roomNumber]">
                         Book Room
                     </button>
                 </td>
