@@ -1,4 +1,4 @@
-import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +9,7 @@ import { interceptorInterceptor } from './appService/intercept/interceptor-inter
 import { InitService } from './appService/init/init-service';
 import { Config } from './appService/config/config';
 import { title } from 'process';
+import { GlobalErrorHandler } from './appService/GlobalErrorHandler';
 
 // function initFactory(initService: InitService){
 //   return ()=> initService.initialize();
@@ -34,6 +35,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: Config,
       useValue: { title: "App"}
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
     }
     // {
     //   provide: APP_INITIALIZER,

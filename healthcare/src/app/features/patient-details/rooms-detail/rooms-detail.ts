@@ -16,15 +16,15 @@ import { Header } from "../../header/header";
 import { PatientDetailsService } from '../service/patient-details-service';
 import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../../appService/config/config.service';
-import { pipe } from 'rxjs';
 import { FilterPipe } from './pipe/filter-pipe';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'hcare-rooms-detail',
-  imports: [CommonModule, Header, RouterLink],
+  imports: [CommonModule, Header, RouterLink, FilterPipe],
   templateUrl: './rooms-detail.html',
   styleUrls: ['./rooms-detail.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     PatientDetailsService
   ],
@@ -32,6 +32,7 @@ import { FilterPipe } from './pipe/filter-pipe';
 export class RoomsDetail implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input({required: true}) hospitalRoomsDetails?: RoomList[];
   @Input() title?: string;
+  @Input() price?: FormControl;
   @Output() updateRoom= new EventEmitter<string>();
   @Output() removeRoom= new EventEmitter<string>();
   @ViewChild(Header, {static: true}) headerComponent?: Header;

@@ -3,6 +3,8 @@ import { Employee } from './features/employee/employee';
 import { Notfound } from './features/notfound/notfound';
 import { Login } from './features/login/login';
 import { appCanLoad, appGuardGuard } from './appService/guards/app-guard-guard';
+import { Comments } from './comments/comments';
+import { commentsGuard } from './comments/guards/comments-guard';
 
 export const routes: Routes = [
     {
@@ -15,6 +17,11 @@ export const routes: Routes = [
     // {path: `rooms`, children: PATIENT_ROUTES},
     {path: `employee`, component: Employee, canActivate: [appGuardGuard], canMatch: [appCanLoad]},
     {path: `login`, component: Login},
+    {
+        path: `comments`,
+        component: Comments,
+        resolve: {comments: commentsGuard}
+    },
     {path: ``, redirectTo: `login`, pathMatch: 'full'},
     {path: `**`, component: Notfound}
     // {path: ``, component: PatientDetails}

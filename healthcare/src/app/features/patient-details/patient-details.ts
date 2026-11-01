@@ -9,10 +9,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { ConfigService } from '../../appService/config/config.service';
 import { Config } from '../../appService/config/config';
 import { ConfigInterface } from '../../appService/config/config.interface';
+import { FormControl, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'hcare-patient-details',
-  imports: [CommonModule, RoomsDetail, RouterLink, RouterOutlet],
+  imports: [CommonModule, RoomsDetail, RouterLink, RouterOutlet, ReactiveFormsModule],
   templateUrl: './patient-details.html',
   styleUrl: './patient-details.scss',
   providers: [
@@ -46,6 +47,7 @@ export class PatientDetails implements OnInit {
   // });
   getRoomsError$ = new Subject();
   // getRoomsErrorObserver= this.getRoomsError$.asObservable();
+  price= new FormControl(20000);
 
   constructor(
     private patientDetailsService: PatientDetailsService,

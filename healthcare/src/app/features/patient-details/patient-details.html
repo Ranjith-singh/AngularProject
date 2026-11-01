@@ -1,5 +1,5 @@
 <div>
-    <span>Name of the patient: {{patientName}}</span>
+    <!-- <span>Name of the patient: {{patientName}}</span>
     <div #user></div>
     <div [hidden]="showDetails()">
         Age: <span [innerText]="age"></span>
@@ -8,20 +8,20 @@
     </div>
     <div>
         <button (click)="toggle()">toggle</button>
-    </div>
+    </div> -->
     <router-outlet></router-outlet>
-    <div>
-        <!-- {{hospitalRooms.availableRooms && hospitalRooms.availableRooms}} -->
+    <!-- <div>
+        {{hospitalRooms.availableRooms && hospitalRooms.availableRooms}}
         {{hospitalRooms.availableRooms ?? 'No Rooms'}}
         @if(hospitalRooms.availableRooms != undefined) {
             {{hospitalRooms.availableRooms}}
         }
         {{hospitalRooms | json}}
-    </div>
+    </div> -->
 
-    @if(selectedRoom) {
+    <!-- @if(selectedRoom) {
         {{selectedRoom | json}}
-    }
+    } -->
     
     @if (hospitalRooms.availableRooms && (hospitalRooms.availableRooms> 1)  && showDetails()) {
         <!-- <div>
@@ -64,10 +64,21 @@
         <!-- <div>
             {{rooms$ | async | json}}
         </div> -->
+        <div>
+            {{price.value | json}}
+        </div>
+        <div>
+            <input
+                placeholder="Enter Price range"
+                type="number"
+                [formControl]="price"
+            >
+        </div>
         @if(rooms$ | async; as rooms) {
             <hcare-rooms-detail
                 [hospitalRoomsDetails]="rooms"
                 [title]="title"
+                [price]="price"
                 (updateRoom)="updateRoom($event)"
                 (removeRoom)="removeRoom($event)"
             >
@@ -81,6 +92,6 @@
         >
             Add Room
         </button>
-        <h1 [innerText]="bytesDownloaded()"></h1>
+        <!-- <h1 [innerText]="bytesDownloaded()"></h1> -->
     }
 </div>
