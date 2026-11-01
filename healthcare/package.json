@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng serve -c=production",
-    "start:prod": "start \"Backend\" /B cmd /C \"cd /d hotelapi-backend && npm start\" && npm run build:prod",
+    "start:dev": "concurrently \"cd hotelapi-backend && npm start\" \"npm run start\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:healthcare": "node dist/healthcare/server/server.mjs"
