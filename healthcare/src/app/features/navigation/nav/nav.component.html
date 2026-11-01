@@ -13,7 +13,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="toolbar">
       @if (isHandset$ | async) {
         <button
           type="button"
@@ -23,7 +23,7 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <span>healthcare</span>
+      <span>Healthcare</span>
     </mat-toolbar>
     <router-outlet />
     <!-- Add Content Here -->

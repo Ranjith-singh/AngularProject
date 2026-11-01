@@ -11,15 +11,18 @@ export const routes: Routes = [
         path: `rooms`,
         loadChildren : ()=> import('./features/patient-details/patient-details.routes')
             .then(patientDetails=> patientDetails.PATIENT_ROUTES),
-        // canActivate: [appGuardGuard],
-        // canMatch: [appCanLoad]
+        canActivate: [appGuardGuard],
+        canMatch: [appCanLoad]
     },
     // {path: `rooms`, children: PATIENT_ROUTES},
-    {path: `employee`, component: Employee, canActivate: [appGuardGuard], canMatch: [appCanLoad]},
+    {path: `employee`, component: Employee,
+        canActivate: [appGuardGuard], canMatch: [appCanLoad]
+    },
     {path: `login`, component: Login},
     {
         path: `comments`,
         component: Comments,
+        canActivate: [appGuardGuard],
         resolve: {comments: commentsGuard}
     },
     {path: ``, redirectTo: `login`, pathMatch: 'full'},

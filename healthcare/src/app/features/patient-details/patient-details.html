@@ -64,16 +64,9 @@
         <!-- <div>
             {{rooms$ | async | json}}
         </div> -->
-        <div>
+        <!-- <div>
             {{price.value | json}}
-        </div>
-        <div>
-            <input
-                placeholder="Enter Price range"
-                type="number"
-                [formControl]="price"
-            >
-        </div>
+        </div> -->
         @if(rooms$ | async; as rooms) {
             <hcare-rooms-detail
                 [hospitalRoomsDetails]="rooms"
@@ -87,11 +80,21 @@
         <div>
             {{getRoomsError$ | async}}
         </div>
-        <button class="btn btn-primary"
-            [routerLink]="['add-rooms']"
-        >
-            Add Room
-        </button>
+        <div>
+            <input
+                placeholder="Enter Price range"
+                type="number"
+                [formControl]="price"
+            >
+            Room price range
+        </div>
+        <div>
+            <button class="btn btn-primary"
+                [routerLink]="['add-rooms']"
+            >
+                Add Room
+            </button>
+        </div>
         <!-- <h1 [innerText]="bytesDownloaded()"></h1> -->
     }
 </div>
