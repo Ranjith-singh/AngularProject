@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng serve -c=production --watch=false",
+    "build:prod": "ng build -c=production --watch=false",
     "watch": "ng build --configuration development",
     "test": "ng test",
     "serve:ssr:healthcare": "node dist/healthcare/server/server.mjs"
